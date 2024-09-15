@@ -7,7 +7,14 @@ public class Client {
     private String phone;
     private boolean isProfessional = false;
 
-    public Client(int id, String name, String address, String phone, boolean isProfessional) {
+    public Client(String name, String address, String phone, boolean isProfessional) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.isProfessional = isProfessional;
+    }
+
+    public Client(int id,String name, String address, String phone, boolean isProfessional) {
         this.id = id;
         this.name = name;
         this.address = address;
