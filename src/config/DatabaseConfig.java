@@ -8,7 +8,7 @@ public class DatabaseConfig {
     private static final DatabaseConfig INSTANCE = new DatabaseConfig();
     private static final String SERVER_NAME = "localhost";
     private static final String PORT_NUMBER = "5432";
-    private static final String DB_NAME = "hotel";
+    private static final String DB_NAME = "bati_cuisine";
     private static final String USERNAME = "admin";
     private static final String PASSWORD = "admin";
     private static Connection connection = null;
