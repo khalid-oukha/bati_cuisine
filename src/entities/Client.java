@@ -31,7 +31,7 @@ public class Client {
         return phone;
     }
 
-    public boolean isProfessional() {
+    public boolean getIsProfessional() {
         return isProfessional;
     }
 }
