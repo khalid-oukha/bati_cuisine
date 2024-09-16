@@ -1,3 +1,4 @@
+import entities.Client;
 import handlers.ProjectHandler;
 import views.ClientManagementMenu;
 
@@ -26,7 +27,11 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    clientManagementMenu.showMenu();
+                    Client selectedClient = clientManagementMenu.showMenu();
+                    if (selectedClient != null) {
+                        System.out.println("Selected client: " + selectedClient.getName());
+                        projectHandler.createProject(selectedClient);
+                    }
                     break;
                 case 2:
                     break;

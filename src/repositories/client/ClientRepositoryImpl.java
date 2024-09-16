@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientRepositoryImpl implements ClientRepository {
@@ -40,10 +41,10 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     public List<Client> findByName(String name) {
-        String sql = "SELECT * FROM clients WHERE name = ?";
-        List<Client> clients = null;
+        String sql = "SELECT * FROM clients WHERE name like ?";
+        List<Client> clients = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, name);
+            statement.setString(1, "%" + name + "%");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");

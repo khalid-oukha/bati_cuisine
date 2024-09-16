@@ -1,5 +1,6 @@
 package views;
 
+import entities.Client;
 import handlers.ClientHandler;
 
 import java.util.Scanner;
@@ -10,14 +11,16 @@ public class ClientManagementMenu {
     private Scanner scanner = new Scanner(System.in);
     private int choice;
 
-    public void showMenu() {
+    public Client showMenu() {
+        Client selectedClient = null;
+
         do {
             System.out.println("================================================================================================");
             System.out.println("=                                 Clients Management Menu                                       =");
             System.out.println("================================================================================================");
             System.out.println("=    1. Add a New Client                                                                        =");
-            System.out.println("=    2. find client by name                                                                       =");
-            System.out.println("=    3. Search for a Client                                                                     =");
+            System.out.println("=    2. find clients by name                                                                       =");
+            System.out.println("=    3. find clients by name                                                                     =");
             System.out.println("=    4. Update Client Information                                                               =");
             System.out.println("=    0. Exit                                                                                    =");
             System.out.println("================================================================================================");
@@ -28,10 +31,10 @@ public class ClientManagementMenu {
 
             switch (choice) {
                 case 1:
-                    clientHandler.addClient();
+                    selectedClient = clientHandler.addClient();
                     break;
                 case 2:
-                    clientHandler.findClientByName();
+                    selectedClient = clientHandler.findClientByName();
                     break;
                 case 3:
                     break;
@@ -44,6 +47,7 @@ public class ClientManagementMenu {
                     System.out.println("Invalid option. Please try again.");
                     break;
             }
-        } while (choice != 0);
+        } while (choice != 0 && selectedClient == null);
+        return selectedClient;
     }
 }
