@@ -15,7 +15,7 @@ public class ClientHandler {
         this.clientService = new ClientService();
     }
 
-    public void addClient() {
+    public Client addClient() {
         String name;
         String address;
         String phone;
@@ -55,30 +55,49 @@ public class ClientHandler {
             }
         } while (!professionalInput.equalsIgnoreCase("Y") && !professionalInput.equalsIgnoreCase("N"));
 
+        Client client = new Client(name, address, phone, isProfessional);
+
         if (clientService.addClient(name, address, phone, isProfessional)) {
             System.out.println("Client added successfully.");
+            return client;
         } else {
             System.out.println("Error: Could not add client.");
         }
+        return null;
     }
 
-    public void findClientByName() {
+    public Client findClientByName() {
         System.out.println("  Enter client name (3-50 characters): ");
         String name = scanner.nextLine();
         List<Client> clients = clientService.findClientByName(name);
 
         if (clients.isEmpty()) {
             System.out.println("No clients found with the name: " + name);
-            return;
+            return null;
         }
 
         for (Client client : clients) {
-            System.out.println("Client ID: " + client.getId());
-            System.out.println("Client Name: " + client.getName());
-            System.out.println("Client Address: " + client.getAddress());
-            System.out.println("Client Phone: " + client.getPhone());
-            System.out.println("Is Professional: " + (client.getIsProfessional() ? "Yes" : "No"));
+            System.out.println("_____________________________________________________________________________________________");
+            System.out.println("    Client ID: " + client.getId());
+            System.out.println("    Client Name: " + client.getName());
+            System.out.println("    Client Address: " + client.getAddress());
+            System.out.println("    Client Phone: " + client.getPhone());
+            System.out.println("    Is Professional: " + (client.getIsProfessional() ? "Yes" : "No"));
+            System.out.println("_____________________________________________________________________________________________");
         }
 
+        System.out.println("  Choose a client by ID to continue or enter 0 to cancel: ");
+        int choice = scanner.nextInt();
+
+        if (choice != 0) {
+            Client selectedClient = clients.stream().filter(client -> client.getId() == choice).findFirst().orElse(null);
+            if (selectedClient != null) {
+                System.out.println("Selected client: " + selectedClient.getName());
+                return selectedClient;
+            } else {
+                System.out.println("Invalid client ID.");
+            }
+        }
+        return null;
     }
 }
