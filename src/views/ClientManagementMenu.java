@@ -16,7 +16,7 @@ public class ClientManagementMenu {
             System.out.println("=                                 Clients Management Menu                                       =");
             System.out.println("================================================================================================");
             System.out.println("=    1. Add a New Client                                                                        =");
-            System.out.println("=    2. Show All Clients                                                                        =");
+            System.out.println("=    2. find client by name                                                                       =");
             System.out.println("=    3. Search for a Client                                                                     =");
             System.out.println("=    4. Update Client Information                                                               =");
             System.out.println("=    0. Exit                                                                                    =");
@@ -31,6 +31,7 @@ public class ClientManagementMenu {
                     clientHandler.addClient();
                     break;
                 case 2:
+                    clientHandler.findClientByName();
                     break;
                 case 3:
                     break;

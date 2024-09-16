@@ -2,7 +2,10 @@ package repositories.client;
 
 import entities.Client;
 
-public interface ClientRepository {
-    void create(Client client);
+import java.util.List;
 
+public interface ClientRepository {
+    boolean create(Client client);
+
+    List<Client> findByName(String name);
 }

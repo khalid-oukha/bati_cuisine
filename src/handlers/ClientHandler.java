@@ -1,8 +1,10 @@
 package handlers;
 
-import services.ClientService;
+import entities.Client;
 import helpers.InputValidator;
+import services.ClientService;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class ClientHandler {
@@ -53,6 +55,30 @@ public class ClientHandler {
             }
         } while (!professionalInput.equalsIgnoreCase("Y") && !professionalInput.equalsIgnoreCase("N"));
 
-        clientService.addClient(name, address, phone, isProfessional);
+        if (clientService.addClient(name, address, phone, isProfessional)) {
+            System.out.println("Client added successfully.");
+        } else {
+            System.out.println("Error: Could not add client.");
+        }
+    }
+
+    public void findClientByName() {
+        System.out.println("  Enter client name (3-50 characters): ");
+        String name = scanner.nextLine();
+        List<Client> clients = clientService.findClientByName(name);
+
+        if (clients.isEmpty()) {
+            System.out.println("No clients found with the name: " + name);
+            return;
+        }
+
+        for (Client client : clients) {
+            System.out.println("Client ID: " + client.getId());
+            System.out.println("Client Name: " + client.getName());
+            System.out.println("Client Address: " + client.getAddress());
+            System.out.println("Client Phone: " + client.getPhone());
+            System.out.println("Is Professional: " + (client.getIsProfessional() ? "Yes" : "No"));
+        }
+
     }
 }
