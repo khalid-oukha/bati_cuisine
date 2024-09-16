@@ -1,8 +1,12 @@
 package views;
 
+import handlers.ClientHandler;
+
 import java.util.Scanner;
 
 public class ClientManagementMenu {
+
+    private ClientHandler clientHandler = new ClientHandler();
     private Scanner scanner = new Scanner(System.in);
     private int choice;
 
@@ -24,6 +28,7 @@ public class ClientManagementMenu {
 
             switch (choice) {
                 case 1:
+                    clientHandler.addClient();
                     break;
                 case 2:
                     break;
