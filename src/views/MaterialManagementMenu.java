@@ -18,7 +18,11 @@ public class MaterialManagementMenu {
 
         do {
             Material material = materialHandler.createMaterial(project);
-            selectedMaterials.add(material);
+
+            if (material != null) {
+                System.out.println("Material : " + material.getName() + " added to the project." + project.getName());
+                selectedMaterials.add(material);
+            }
 
             System.out.println("Do you want to add another material? (YES:1 / NO:2): ");
             choice = scanner.nextInt();
