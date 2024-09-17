@@ -1,5 +1,6 @@
 package entities;
 
+
 public class Client {
     private int id;
     private String name;
@@ -14,7 +15,7 @@ public class Client {
         this.isProfessional = isProfessional;
     }
 
-    public Client(int id,String name, String address, String phone, boolean isProfessional) {
+    public Client(int id, String name, String address, String phone, boolean isProfessional) {
         this.id = id;
         this.name = name;
         this.address = address;

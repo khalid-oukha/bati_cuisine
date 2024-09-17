@@ -1,6 +1,8 @@
 import entities.Client;
+import entities.Project;
 import handlers.ProjectHandler;
 import views.ClientManagementMenu;
+import views.MaterialManagementMenu;
 
 import java.util.Scanner;
 
@@ -9,7 +11,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         ProjectHandler projectHandler = new ProjectHandler();
         ClientManagementMenu clientManagementMenu = new ClientManagementMenu();
-
+        MaterialManagementMenu materialManagementMenu = new MaterialManagementMenu();
         int choice;
 
         do {
@@ -28,10 +30,10 @@ public class Main {
             switch (choice) {
                 case 1:
                     Client selectedClient = clientManagementMenu.showMenu();
-                    if (selectedClient != null) {
-                        System.out.println("Selected client: " + selectedClient.getName());
-                        projectHandler.createProject(selectedClient);
-                    }
+                    Project project = projectHandler.createProject(selectedClient);
+
+                    System.out.println("project name : " + project.getName());
+                    materialManagementMenu.showMenu(project);
                     break;
                 case 2:
                     break;
