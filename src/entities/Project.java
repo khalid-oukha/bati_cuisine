@@ -19,6 +19,11 @@ public class Project {
         this.client = client;
     }
 
+    public Project(String name, Client client) {
+        this.name = name;
+        this.client = client;
+    }
+
     public int getId() {
         return id;
     }
@@ -41,5 +46,9 @@ public class Project {
 
     public Client getClient() {
         return client;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
