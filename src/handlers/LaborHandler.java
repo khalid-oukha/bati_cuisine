@@ -24,6 +24,6 @@ public class LaborHandler {
         scanner.nextLine();
         System.out.println("================================================================================================");
 
-//        return laborService.createLabor(name, hourlyRate, workingHours, workerProductivity, project);
+        return laborService.createLabor(name, hourlyRate, workingHours, workerProductivity, project);
     }
 }
