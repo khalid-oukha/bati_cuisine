@@ -24,15 +24,20 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     public boolean create(Client client) {
-        String sql = "INSERT INTO clients (name, address,phone,isprofessional) VALUES (?, ?,?,?)";
+        String sql = "INSERT INTO clients (name, address,phone,isprofessional) VALUES (?, ?,?,?) returning id";
+        ;
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, client.getName());
             statement.setString(2, client.getAddress());
             statement.setString(3, client.getPhone());
             statement.setBoolean(4, client.getIsProfessional());
-
-            return statement.executeUpdate() == 1;
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                int generatedId = resultSet.getInt("id");
+                client.setId(generatedId);
+                return true;
+            }
         } catch (SQLException e) {
             System.out.println("Error adding client: " + e.getMessage());
         }

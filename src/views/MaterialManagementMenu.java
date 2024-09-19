@@ -10,23 +10,26 @@ import java.util.Scanner;
 
 public class MaterialManagementMenu {
     private Scanner scanner = new Scanner(System.in);
-    private int choice;
     private MaterialHandler materialHandler = new MaterialHandler();
-
 
     public List<Material> showMenu(Project project) {
         List<Material> selectedMaterials = new ArrayList<>();
+        int choice;
 
         do {
-            materialHandler.createMaterial(project);
-            System.out.println("Do you want to add another material? (Y:YES/N:No): ");
-            String addAnotherMaterial = scanner.nextLine();
+            Material material = materialHandler.createMaterial(project);
 
-            if (addAnotherMaterial.equalsIgnoreCase("N")) {
-                choice = 0;
+            if (material != null) {
+                System.out.println("Material : " + material.getName() + " added to the project." + project.getName());
+                selectedMaterials.add(material);
             }
 
-        } while (choice != 0);
+            System.out.println("Do you want to add another material? (YES:1 / NO:2): ");
+            choice = scanner.nextInt();
+            scanner.nextLine();
+
+        } while (choice == 1);
+
         return selectedMaterials;
     }
 }

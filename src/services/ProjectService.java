@@ -6,7 +6,7 @@ import repositories.project.ProjectRepository;
 import repositories.project.ProjectRepositoryImpl;
 
 public class ProjectService {
-    private ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
 
     public ProjectService() {
         this.projectRepository = new ProjectRepositoryImpl();

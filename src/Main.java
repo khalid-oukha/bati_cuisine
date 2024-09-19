@@ -16,12 +16,12 @@ public class Main {
 
         do {
             System.out.println("================================================================================================");
-            System.out.println("=                                  Project Management Menu                                       =");
+            System.out.println("=                                  Project Management Menu                                       ");
             System.out.println("================================================================================================");
-            System.out.println("=    1. Create a New Project                                                                    =");
-            System.out.println("=    2. Show All Projects                                                                       =");
-            System.out.println("=    3. Calculate Project Cost                                                                 =");
-            System.out.println("=    4. Exit                                                                 =");
+            System.out.println("=    1. Create a New Project                                                                    ");
+            System.out.println("=    2. Show All Projects                                                                       ");
+            System.out.println("=    3. Calculate Project Cost                                                                 ");
+            System.out.println("=    0. Exit                                                                 ");
             System.out.println("================================================================================================");
             System.out.print("=    Please Enter Your Option: ");
 
