@@ -54,6 +54,7 @@ public class ComponentRepositoryImpl implements ComponentRepository {
                         resultSet.getInt("id"),
                         resultSet.getString("name"),
                         ComponentType.valueOf(resultSet.getString("componentType")),
+                        resultSet.getDouble("vatrate"),
                         project
                 );
             }

@@ -37,8 +37,18 @@ public class Main {
                     Project project = projectHandler.createProject(selectedClient);
 
                     System.out.println("project name : " + project.getName());
-                    List<Material> materials = materialManagementMenu.showMenu(project);
-                    laborManagementMenu.showMenu(project);
+
+                    System.out.println("Do you want to apply tax for the project? (YES:1 / NO:2): ");
+                    int taxChoice = scanner.nextInt();
+                    scanner.nextLine();
+                    double taxRate = 0;
+                    if (taxChoice == 1) {
+                        System.out.println("Enter the tax rate (20%) : ");
+                        taxRate = scanner.nextDouble() / 100;
+                    }
+
+                    List<Material> materials = materialManagementMenu.showMenu(project, taxRate);
+                    laborManagementMenu.showMenu(project, taxRate);
                     break;
                 case 2:
                     break;

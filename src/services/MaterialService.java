@@ -16,15 +16,16 @@ public class MaterialService {
         this.componentService = new ComponentService();
     }
 
-    public Material createMaterial(String name, double quantity, double unitCost, double transportCost, double qualityCoefficient, Project project) {
+    public Material createMaterial(String name, double quantity, double unitCost, double transportCost, double qualityCoefficient, Project project, double taxRate) {
 
-        Component component = componentService.createComponent(name, ComponentType.MATERIAL, project);
+        Component component = componentService.createComponent(name, ComponentType.MATERIAL, taxRate, project);
 
         if (component != null) {
             Material material = new Material(
                     component.getId(),
                     component.getName(),
                     ComponentType.MATERIAL,
+                    component.getVatRate(),
                     component.getProject(),
                     unitCost,
                     quantity,
