@@ -1,6 +1,7 @@
 import entities.Client;
 import entities.Material;
 import entities.Project;
+import handlers.MaterialHandler;
 import handlers.ProjectHandler;
 import views.ClientManagementMenu;
 import views.LaborManagementMenu;
@@ -13,6 +14,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ProjectHandler projectHandler = new ProjectHandler();
+        MaterialHandler materialHandler = new MaterialHandler();
         ClientManagementMenu clientManagementMenu = new ClientManagementMenu();
         MaterialManagementMenu materialManagementMenu = new MaterialManagementMenu();
         LaborManagementMenu laborManagementMenu = new LaborManagementMenu();
@@ -47,8 +49,22 @@ public class Main {
                         taxRate = scanner.nextDouble() / 100;
                     }
 
+
                     List<Material> materials = materialManagementMenu.showMenu(project, taxRate);
                     laborManagementMenu.showMenu(project, taxRate);
+
+                    double profitMargin = 0;
+                    System.out.println("Do you want to apply tax for the project? (YES:1 / NO:2): ");
+                    int profitChoice = scanner.nextInt();
+                    scanner.nextLine();
+
+                    if (profitChoice == 1) {
+                        System.out.println("Enter the profit margin (20%) : ");
+                        profitMargin = scanner.nextDouble();
+                    }
+                    
+                    System.out.println(project.toString());
+                    materialHandler.displayMaterialDetails(materials);
                     break;
                 case 2:
                     break;

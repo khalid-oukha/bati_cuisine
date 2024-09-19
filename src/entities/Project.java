@@ -51,4 +51,19 @@ public class Project {
     public void setId(int id) {
         this.id = id;
     }
+
+    public String toString() {
+        return "\n================================================================================================\n" +
+                "=                                     Project Details                                            =\n" +
+                "================================================================================================\n" +
+                "  Project ID        : " + id + "\n" +
+                "  Project Name      : '" + name + "'\n" +
+                "  Profit Margin     : " + profitMargin + "%\n" +
+                "  Total Cost        : " + totalCost + " DH\n" +
+                "  Status            : " + status + "\n" +
+                "  Client Name       : " + client.getName() + "\n" +
+                "================================================================================================\n";
+    }
+
+
 }

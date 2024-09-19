@@ -4,6 +4,7 @@ import entities.Material;
 import entities.Project;
 import services.MaterialService;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class MaterialHandler {
@@ -30,5 +31,17 @@ public class MaterialHandler {
         System.out.println("================================================================================================");
 
         return materialService.createMaterial(name, quantity, unitCost, transportCost, qualityCoefficient, project, taxRate);
+    }
+
+    public void displayMaterialDetails(List<Material> materials) {
+        System.out.println("================================================================================================");
+        System.out.println("=                                     Material Details                                            ");
+        System.out.println("================================================================================================");
+        System.out.println("  ID\t\tName\t\tQuantity\tUnit Cost\tTransport Cost\tQuality Coefficient\tTotal Cost");
+        System.out.println("------------------------------------------------------------------------------------------------");
+
+        materialService.displayMaterialDetails(materials);
+
+        System.out.println("================================================================================================");
     }
 }
