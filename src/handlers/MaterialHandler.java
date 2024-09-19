@@ -11,7 +11,7 @@ public class MaterialHandler {
     private Scanner scanner = new Scanner(System.in);
     private final MaterialService materialService = new MaterialService();
 
-    public Material createMaterial(Project project) {
+    public Material createMaterial(Project project, double taxRate) {
         System.out.println("================================================================================================");
         System.out.println("    Enter material name: ");
         String name = scanner.nextLine();
@@ -29,6 +29,6 @@ public class MaterialHandler {
         scanner.nextLine();
         System.out.println("================================================================================================");
 
-        return materialService.createMaterial(name, quantity, unitCost, transportCost, qualityCoefficient, project);
+        return materialService.createMaterial(name, quantity, unitCost, transportCost, qualityCoefficient, project, taxRate);
     }
 }

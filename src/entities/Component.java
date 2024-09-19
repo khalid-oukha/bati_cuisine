@@ -10,18 +10,18 @@ public class Component {
     private Project project;
 
 
-    public Component(String name, ComponentType componentType, Project project) {
+    public Component(String name, ComponentType componentType, double vatRate, Project project) {
         this.name = name;
         this.componentType = componentType;
-        this.vatRate = 0.21;
+        this.vatRate = vatRate;
         this.project = project;
     }
 
-    public Component(int id, String name, ComponentType componentType, Project project) {
+    public Component(int id, String name, ComponentType componentType, double vatRate, Project project) {
         this.id = id;
         this.name = name;
         this.componentType = componentType;
-        this.vatRate = 0.21;
+        this.vatRate = vatRate;
         this.project = project;
     }
 

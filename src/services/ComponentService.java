@@ -13,8 +13,8 @@ public class ComponentService {
         this.componentRepository = new ComponentRepositoryImpl();
     }
 
-    public Component createComponent(String name, ComponentType componentType, Project project) {
-        Component component = new Component(name, componentType, project);
+    public Component createComponent(String name, ComponentType componentType, double vatRate, Project project) {
+        Component component = new Component(name, componentType, vatRate, project);
         if (componentRepository.create(component)) {
             return component;
         }

@@ -16,13 +16,14 @@ public class LaborService {
         this.componentService = new ComponentService();
     }
 
-    public Labor createLabor(String name, double hourlyRate, double workingHours, double workerProductivity, Project project) {
-        Component component = componentService.createComponent(name, ComponentType.LABOUR, project);
+    public Labor createLabor(String name, double hourlyRate, double workingHours, double workerProductivity, Project project, double taxRate) {
+        Component component = componentService.createComponent(name, ComponentType.LABOUR, taxRate, project);
         if (component != null) {
             Labor labor = new Labor(
                     component.getId(),
                     component.getName(),
                     ComponentType.LABOUR,
+                    component.getVatRate(),
                     hourlyRate,
                     workingHours,
                     workerProductivity,

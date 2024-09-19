@@ -10,7 +10,7 @@ public class LaborHandler {
     private Scanner scanner = new Scanner(System.in);
     private final LaborService laborService = new LaborService();
 
-    public Labor addLabor(Project project) {
+    public Labor addLabor(Project project, double taxRate) {
         System.out.println("================================================================================================");
         System.out.println("Enter labor name: ");
         String name = scanner.nextLine();
@@ -24,6 +24,6 @@ public class LaborHandler {
         scanner.nextLine();
         System.out.println("================================================================================================");
 
-        return laborService.createLabor(name, hourlyRate, workingHours, workerProductivity, project);
+        return laborService.createLabor(name, hourlyRate, workingHours, workerProductivity, project, taxRate);
     }
 }
