@@ -1,11 +1,19 @@
 package entities;
 
+
 public class Client {
     private int id;
     private String name;
     private String address;
     private String phone;
     private boolean isProfessional = false;
+
+    public Client(String name, String address, String phone, boolean isProfessional) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.isProfessional = isProfessional;
+    }
 
     public Client(int id, String name, String address, String phone, boolean isProfessional) {
         this.id = id;
@@ -31,7 +39,11 @@ public class Client {
         return phone;
     }
 
-    public boolean isProfessional() {
+    public boolean getIsProfessional() {
         return isProfessional;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

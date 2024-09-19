@@ -1,18 +1,32 @@
 package entities;
 
-public abstract class Component {
+import enums.ComponentType;
+
+public class Component {
     private int id;
     private String name;
-    private String componentType;
+    private ComponentType componentType;
     private double vatRate;
     private Project project;
 
-    public Component(int id, String name, String componentType, double vatRate, Project project) {
+
+    public Component(String name, ComponentType componentType, Project project) {
+        this.name = name;
+        this.componentType = componentType;
+        this.vatRate = 0.21;
+        this.project = project;
+    }
+
+    public Component(int id, String name, ComponentType componentType, Project project) {
         this.id = id;
         this.name = name;
         this.componentType = componentType;
-        this.vatRate = vatRate;
+        this.vatRate = 0.21;
         this.project = project;
+    }
+
+    public Component(int id) {
+        this.id = id;
     }
 
     public int getId() {
@@ -23,7 +37,7 @@ public abstract class Component {
         return name;
     }
 
-    public String getComponentType() {
+    public ComponentType getComponentType() {
         return componentType;
     }
 
@@ -35,8 +49,7 @@ public abstract class Component {
         return project;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(int id) {
+        this.id = id;
     }
-
 }
