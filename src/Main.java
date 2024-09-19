@@ -1,9 +1,12 @@
 import entities.Client;
+import entities.Material;
 import entities.Project;
 import handlers.ProjectHandler;
 import views.ClientManagementMenu;
+import views.LaborManagementMenu;
 import views.MaterialManagementMenu;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -12,6 +15,7 @@ public class Main {
         ProjectHandler projectHandler = new ProjectHandler();
         ClientManagementMenu clientManagementMenu = new ClientManagementMenu();
         MaterialManagementMenu materialManagementMenu = new MaterialManagementMenu();
+        LaborManagementMenu laborManagementMenu = new LaborManagementMenu();
         int choice;
 
         do {
@@ -33,7 +37,8 @@ public class Main {
                     Project project = projectHandler.createProject(selectedClient);
 
                     System.out.println("project name : " + project.getName());
-                    materialManagementMenu.showMenu(project);
+                    List<Material> materials = materialManagementMenu.showMenu(project);
+                    laborManagementMenu.showMenu(project);
                     break;
                 case 2:
                     break;

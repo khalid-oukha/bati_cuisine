@@ -17,15 +17,15 @@ public class LaborManagementMenu {
     }
 
     public List<Labor> showMenu(Project project) {
-        List<Labor> addedLabots = new ArrayList<>();
+        List<Labor> addedLabors = new ArrayList<>();
         int choice;
 
         do {
             Labor labor = laborHandler.addLabor(project);
 
             if (labor != null) {
-                System.out.println("Material : " + labor.getName() + " added to the project." + project.getName());
-                addedLabots.add(labor);
+                System.out.println("Labor : " + labor.getName() + " added to the project." + project.getName());
+                addedLabors.add(labor);
             }
 
             System.out.println("Do you want to add another material? (YES:1 / NO:2): ");
@@ -34,6 +34,6 @@ public class LaborManagementMenu {
 
         } while (choice == 1);
 
-        return addedLabots;
+        return addedLabors;
     }
 }
