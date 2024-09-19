@@ -55,9 +55,9 @@ public class ClientHandler {
             }
         } while (!professionalInput.equalsIgnoreCase("Y") && !professionalInput.equalsIgnoreCase("N"));
 
-        Client client = new Client(name, address, phone, isProfessional);
+        Client client = clientService.addClient(name, address, phone, isProfessional);
 
-        if (clientService.addClient(name, address, phone, isProfessional)) {
+        if (client != null) {
             System.out.println("Client added successfully.");
             return client;
         } else {

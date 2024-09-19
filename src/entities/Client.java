@@ -42,4 +42,8 @@ public class Client {
     public boolean getIsProfessional() {
         return isProfessional;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

@@ -13,9 +13,12 @@ public class ClientService {
         this.clientRepository = new ClientRepositoryImpl();
     }
 
-    public boolean addClient(String name, String address, String phone, boolean isProfessional) {
+    public Client addClient(String name, String address, String phone, boolean isProfessional) {
         Client client = new Client(name, address, phone, isProfessional);
-        return clientRepository.create(client);
+        if (clientRepository.create(client)) {
+            return client;
+        }
+        return null;
     }
 
     public List<Client> findClientByName(String name) {
