@@ -32,4 +32,8 @@ public class MaterialManagementMenu {
 
         return selectedMaterials;
     }
+
+    public void displayMaterialDetails(List<Material> materials) {
+        materialHandler.displayMaterialDetails(materials);
+    }
 }
