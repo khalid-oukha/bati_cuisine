@@ -38,8 +38,6 @@ public class Main {
                     Client selectedClient = clientManagementMenu.showMenu();
                     Project project = projectHandler.createProject(selectedClient);
 
-                    System.out.println("project name : " + project.getName());
-
                     System.out.println("Do you want to apply tax for the project? (YES:1 / NO:2): ");
                     int taxChoice = scanner.nextInt();
                     scanner.nextLine();
@@ -54,7 +52,7 @@ public class Main {
                     laborManagementMenu.showMenu(project, taxRate);
 
                     double profitMargin = 0;
-                    System.out.println("Do you want to apply tax for the project? (YES:1 / NO:2): ");
+                    System.out.println("Do you want to add profit margin tax for the project? (YES:1 / NO:2): ");
                     int profitChoice = scanner.nextInt();
                     scanner.nextLine();
 
@@ -62,9 +60,9 @@ public class Main {
                         System.out.println("Enter the profit margin (20%) : ");
                         profitMargin = scanner.nextDouble();
                     }
-                    
+
                     System.out.println(project.toString());
-                    materialHandler.displayMaterialDetails(materials);
+                    materialManagementMenu.displayMaterialDetails(materials);
                     break;
                 case 2:
                     break;

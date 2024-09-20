@@ -31,7 +31,6 @@ public class ClientManagementMenu {
             switch (choice) {
                 case 1:
                     selectedClient = clientHandler.addClient();
-                    System.out.println(selectedClient.getId());
                     break;
                 case 2:
                     selectedClient = clientHandler.findClientByName();

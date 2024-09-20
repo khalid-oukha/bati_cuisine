@@ -37,11 +37,16 @@ public class MaterialHandler {
         System.out.println("================================================================================================");
         System.out.println("=                                     Material Details                                            ");
         System.out.println("================================================================================================");
-        System.out.println("  ID\t\tName\t\tQuantity\tUnit Cost\tTransport Cost\tQuality Coefficient\tTotal Cost");
         System.out.println("------------------------------------------------------------------------------------------------");
 
-        materialService.displayMaterialDetails(materials);
+        for (Material material : materials) {
+            System.out.println("[" + material.getName() + "]" + "\t\t Quantity : " + material.getQuantity() + "\t\tUnit Cost : " + material.getUnitCost() + "\t\t Transport Cost : " + material.getTransportCost() + "\t\t Quality Coefficient : " + material.getQualityCoefficient() + "\n" +
+                    "Total Cost: " + materialService.calculateTotalCost(material) + "\n" +
+                    "Total Cost with VAT: " + materialService.calculateTotalCostWithVat(material) + "\n");
+            System.out.println("------------------------------------------------------------------------------------------------");
 
+        }
+        materialService.calculateTotalCostForAllMaterials(materials);
         System.out.println("================================================================================================");
     }
 }

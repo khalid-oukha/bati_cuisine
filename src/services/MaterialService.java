@@ -50,16 +50,15 @@ public class MaterialService {
         return calculateTotalCost(material) * (1 + material.getVatRate());
     }
 
-    public void displayMaterialDetails(List<Material> materials) {
-
+    public void calculateTotalCostForAllMaterials(List<Material> materials) {
+        double totalCost = 0;
+        double totalCostWithVat = 0;
         for (Material material : materials) {
-            System.out.println("Name: " + material.getName() + "\n" +
-                    "Quantity: " + material.getQuantity() + "\n" +
-                    "Unit Cost: " + material.getUnitCost() + "\n" +
-                    "Transport Cost: " + material.getTransportCost() + "\n" +
-                    "Quality Coefficient: " + material.getQualityCoefficient() + "\n" +
-                    "Total Cost: " + calculateTotalCost(material) + "\n" +
-                    "Total Cost with VAT: " + calculateTotalCostWithVat(material) + "\n");
+            totalCost += calculateTotalCost(material);
+            totalCostWithVat += calculateTotalCostWithVat(material);
         }
+        System.out.println("Total Cost for all materials : " + totalCost);
+        System.out.println("Total Cost for all materials with vate : " + totalCostWithVat);
     }
+
 }
