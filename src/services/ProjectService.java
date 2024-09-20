@@ -19,4 +19,8 @@ public class ProjectService {
         }
         return null;
     }
+
+    public Project getProjectByName(String name) {
+        return projectRepository.findByName(name);
+    }
 }

@@ -4,7 +4,7 @@ import entities.Material;
 import entities.Project;
 import services.MaterialService;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class MaterialHandler {
@@ -33,20 +33,22 @@ public class MaterialHandler {
         return materialService.createMaterial(name, quantity, unitCost, transportCost, qualityCoefficient, project, taxRate);
     }
 
-    public void displayMaterialDetails(List<Material> materials) {
+    public void displayMaterialDetails(Project project) {
         System.out.println("================================================================================================");
         System.out.println("=                                     Material Details                                            ");
         System.out.println("================================================================================================");
         System.out.println("------------------------------------------------------------------------------------------------");
 
-        for (Material material : materials) {
+        for (Material material : materialService.getAllMaterials(project)) {
             System.out.println("[" + material.getName() + "]" + "\t\t Quantity : " + material.getQuantity() + "\t\tUnit Cost : " + material.getUnitCost() + "\t\t Transport Cost : " + material.getTransportCost() + "\t\t Quality Coefficient : " + material.getQualityCoefficient() + "\n" +
                     "Total Cost: " + materialService.calculateTotalCost(material) + "\n" +
                     "Total Cost with VAT: " + materialService.calculateTotalCostWithVat(material) + "\n");
             System.out.println("------------------------------------------------------------------------------------------------");
 
         }
-        materialService.calculateTotalCostForAllMaterials(materials);
+        Map<String, Double> materialsCost = materialService.calculateTotalCostForAllMaterials(project);
+        System.out.println("Total Cost for all materials without VAT: " + materialsCost.get("TotalCostWithoutVAT"));
+        System.out.println("Total Cost for all materials with VAT: " + materialsCost.get("TotalCostWithVAT"));
         System.out.println("================================================================================================");
     }
 }

@@ -6,4 +6,6 @@ public interface ProjectRepository {
     boolean createProject(Project project);
 
     Project findByProjectId(int id);
+
+    Project findByName(String name);
 }

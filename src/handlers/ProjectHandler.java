@@ -23,6 +23,16 @@ public class ProjectHandler {
         return projectService.createProject(projectName, client);
     }
 
+    public void displayProjectByName() {
+        System.out.println("Enter project name: ");
+        String projectName = scanner.next();
+        Project project = projectService.getProjectByName(projectName);
+        if (project != null) {
+            System.out.println(project.toString());
 
+        } else {
+            System.out.println("Project not found");
+        }
+    }
 
 }

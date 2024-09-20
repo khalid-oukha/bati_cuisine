@@ -7,7 +7,9 @@ import enums.ComponentType;
 import repositories.material.MaterialRepository;
 import repositories.material.MaterialRepositoryImpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MaterialService {
     private final MaterialRepository materialRepository;
@@ -42,6 +44,10 @@ public class MaterialService {
         return null;
     }
 
+    public List<Material> getAllMaterials(Project project) {
+        return materialRepository.getAll(project);
+    }
+
     public double calculateTotalCost(Material material) {
         return ((material.getUnitCost() * material.getQuantity()) + material.getTransportCost()) * material.getQualityCoefficient();
     }
@@ -50,15 +56,17 @@ public class MaterialService {
         return calculateTotalCost(material) * (1 + material.getVatRate());
     }
 
-    public void calculateTotalCostForAllMaterials(List<Material> materials) {
-        double totalCost = 0;
-        double totalCostWithVat = 0;
-        for (Material material : materials) {
-            totalCost += calculateTotalCost(material);
-            totalCostWithVat += calculateTotalCostWithVat(material);
+    public Map<String, Double> calculateTotalCostForAllMaterials(Project project) {
+        double allMaterialtotalCost = 0;
+        double AllMaterialstotalCostWithVat = 0;
+        for (Material material : materialRepository.getAll(project)) {
+            allMaterialtotalCost += calculateTotalCost(material);
+            AllMaterialstotalCostWithVat += calculateTotalCostWithVat(material);
         }
-        System.out.println("Total Cost for all materials : " + totalCost);
-        System.out.println("Total Cost for all materials with vate : " + totalCostWithVat);
+        Map<String, Double> result = new HashMap<>();
+        result.put("TotalCostWithoutVAT", allMaterialtotalCost);
+        result.put("TotalCostWithVAT", AllMaterialstotalCostWithVat);
+        return result;
     }
 
 }

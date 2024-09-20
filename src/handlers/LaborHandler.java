@@ -4,6 +4,7 @@ import entities.Labor;
 import entities.Project;
 import services.LaborService;
 
+import java.util.Map;
 import java.util.Scanner;
 
 public class LaborHandler {
@@ -26,4 +27,20 @@ public class LaborHandler {
 
         return laborService.createLabor(name, hourlyRate, workingHours, workerProductivity, project, taxRate);
     }
+
+    public void displayLaborDetails(Project project) {
+        for (Labor labor : laborService.getAllLabors(project)) {
+            System.out.println("[" + labor.getName() + "]" + "\t\t Hourly Rate : " + labor.getHourlyRate() + "\t\t Working Hours : " + labor.getWorkingHours() + "\t\t Worker Productivity : " + labor.getWorkerProductivity() + "\n" +
+                    "Total Cost: " + laborService.calculateLaborCost(labor) + "\n" +
+                    "Total Cost with VAT: " + laborService.calculateLaborCost(labor) * (1 + labor.getVatRate()) + "\n");
+            System.out.println("------------------------------------------------------------------------------------------------");
+        }
+
+        Map<String, Double> laborCosts = laborService.calculateAllLaborsCost(project);
+
+        System.out.println("Total Cost for all labors without VAT: " + laborCosts.get("TotalCostWithoutVAT"));
+        System.out.println("Total Cost for all labors with VAT: " + laborCosts.get("TotalCostWithVAT"));
+
+    }
+
 }

@@ -2,10 +2,14 @@ package repositories.material;
 
 import config.DatabaseConfig;
 import entities.Material;
+import entities.Project;
+import enums.ComponentType;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MaterialRepositoryImpl implements MaterialRepository {
 
@@ -36,6 +40,36 @@ public class MaterialRepositoryImpl implements MaterialRepository {
             System.out.println("error creating material : " + e.getMessage());
         }
         return false;
+    }
+
+    public List<Material> getAll(Project project) {
+        List<Material> materials = new ArrayList<>();
+        String sql = "SELECT * FROM components INNER JOIN materials ON components.id = materials.id WHERE project_id = ? AND \"componentType\" = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, project.getId());
+            statement.setString(2, ComponentType.MATERIAL.toString());
+
+            var result = statement.executeQuery();
+
+            while (result.next()) {
+                Material material = new Material(
+                        result.getInt("id"),
+                        result.getString("name"),
+                        ComponentType.valueOf(result.getString("componentType")),
+                        result.getDouble("vatrate"),
+                        project,
+                        result.getDouble("unitcost"),
+                        result.getDouble("quantity"),
+                        result.getDouble("transportcost"),
+                        result.getDouble("qualitycoefficient")
+                );
+                materials.add(material);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error getting materials: " + e.getMessage());
+        }
+        return materials;
     }
 
 }

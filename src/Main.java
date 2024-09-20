@@ -25,7 +25,7 @@ public class Main {
             System.out.println("=                                  Project Management Menu                                       ");
             System.out.println("================================================================================================");
             System.out.println("=    1. Create a New Project                                                                    ");
-            System.out.println("=    2. Show All Projects                                                                       ");
+            System.out.println("=    2. display project by name                                     ");
             System.out.println("=    3. Calculate Project Cost                                                                 ");
             System.out.println("=    0. Exit                                                                 ");
             System.out.println("================================================================================================");
@@ -62,9 +62,12 @@ public class Main {
                     }
 
                     System.out.println(project.toString());
-                    materialManagementMenu.displayMaterialDetails(materials);
+
+                    materialHandler.displayMaterialDetails(project);
+                    laborManagementMenu.displayLabors(project);
                     break;
                 case 2:
+
                     break;
                 case 3:
                     break;
