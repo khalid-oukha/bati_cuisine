@@ -69,6 +69,7 @@ public class ClientHandler {
     public Client findClientByName() {
         System.out.println("  Enter client name (3-50 characters): ");
         String name = scanner.nextLine();
+
         List<Client> clients = clientService.findClientByName(name);
 
         if (clients.isEmpty()) {
@@ -96,6 +97,99 @@ public class ClientHandler {
                 return selectedClient;
             } else {
                 System.out.println("Invalid client ID.");
+            }
+        }
+        return null;
+    }
+
+    public void deleteClient() {
+        System.out.println("  Enter client ID to delete: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        boolean deleted = clientService.deleteClient(id);
+        if (deleted) {
+            System.out.println("Client deleted successfully.");
+        } else {
+            System.out.println("Error: Could not delete client.");
+        }
+    }
+
+    public Client update() {
+        System.out.println("  Enter client ID to update: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        Client client = clientService.findClientById(id);
+        if (client == null) {
+            System.out.println("Error: Client not found.");
+            return null;
+        }
+
+        System.out.println("  Enter new client name (3-50 characters): ");
+        String name = scanner.nextLine();
+        if (InputValidator.isValidStringLength(name, 3, 50)) {
+            client.setName(name);
+        } else {
+            System.out.println("Error: Client name must be between 3 and 50 characters.");
+            return null;
+        }
+
+        System.out.println("  Enter new client address (3-100 characters): ");
+        String address = scanner.nextLine();
+        if (InputValidator.isValidStringLength(address, 3, 100)) {
+            client.setAddress(address);
+        } else {
+            System.out.println("Error: Client address must be between 3 and 100 characters.");
+            return null;
+        }
+
+        System.out.println("  Enter new client phone (10 digits): ");
+        String phone = scanner.nextLine();
+        if (InputValidator.isPhoneNumber(phone)) {
+            client.setPhone(phone);
+        } else {
+            System.out.println("Error: Client phone must be exactly 10 digits.");
+            return null;
+        }
+
+        boolean isProfessional;
+        String professionalInput;
+        do {
+            System.out.println("  Is the client a professional? (Y:YES/N:No): ");
+            professionalInput = scanner.nextLine();
+            isProfessional = professionalInput.equalsIgnoreCase("Y");
+            if (!professionalInput.equalsIgnoreCase("Y") && !professionalInput.equalsIgnoreCase("N")) {
+                System.out.println("Error: Please enter 'Y' for Yes or 'N' for No.");
+            }
+        } while (!professionalInput.equalsIgnoreCase("Y") && !professionalInput.equalsIgnoreCase("N"));
+
+        client.setIsProfessional(isProfessional);
+
+        boolean updated = clientService.updateClient(client);
+        if (updated) {
+            System.out.println("Client updated successfully.");
+            return client;
+        } else {
+            System.out.println("Error: Could not update client.");
+        }
+        return null;
+    }
+
+    public Client findClientById() {
+        System.out.println("  Enter client ID to delete: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        Client client = clientService.findClientById(id);
+        if (client != null) {
+            System.out.println("Client found successfully.");
+            System.out.println(client);
+
+            System.out.println("Do you want to continue? (Y:YES/N:No): ");
+            String continueInput = scanner.nextLine();
+            if (continueInput.equalsIgnoreCase("Y")) {
+                return client;
             }
         }
         return null;
