@@ -8,16 +8,16 @@ public class Material extends Component {
     private double transportCost;
     private double qualityCoefficient;
 
-    public Material(int id, String name, ComponentType componentType, Project project, double unitCost, double quantity, double transportCost, double qualityCoefficient) {
-        super(id, name, componentType, project);
+    public Material(int id, String name, ComponentType componentType, double vatRate, Project project, double unitCost, double quantity, double transportCost, double qualityCoefficient) {
+        super(id, name, componentType, vatRate, project);
         this.unitCost = unitCost;
         this.quantity = quantity;
         this.transportCost = transportCost;
         this.qualityCoefficient = qualityCoefficient;
     }
 
-    public Material(String name, ComponentType componentType, Project project, double unitCost, double quantity, double transportCost, double qualityCoefficient) {
-        super(name, componentType, project);
+    public Material(String name, ComponentType componentType, double vatRate, Project project, double unitCost, double quantity, double transportCost, double qualityCoefficient) {
+        super(name, componentType, vatRate, project);
         this.unitCost = unitCost;
         this.quantity = quantity;
         this.transportCost = transportCost;
@@ -40,4 +40,19 @@ public class Material extends Component {
         return qualityCoefficient;
     }
 
+    @Override
+    public String toString() {
+        return "\n================================================================================================\n" +
+                "=                                     Material Details                                           =\n" +
+                "================================================================================================\n" +
+                "  Material ID       : " + getId() + "\n" +
+                "  Material Name     : '" + getName() + "'\n" +
+                "  Material Type     : " + getComponentType() + "\n" +
+                "  VAT Rate          : " + getVatRate() + "\n" +
+                "  Project           : " + getProject().getName() + "\n" +
+                "  Unit Cost         : " + unitCost + "\n" +
+                "  Quantity          : " + quantity + "\n" +
+                "  Transport Cost    : " + transportCost + "\n" +
+                "  Quality Coefficient: " + qualityCoefficient + "\n";
+    }
 }

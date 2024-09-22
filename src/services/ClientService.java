@@ -21,7 +21,24 @@ public class ClientService {
         return null;
     }
 
+    public Client findClientById(int id) {
+        return clientRepository.findById(id);
+    }
+
     public List<Client> findClientByName(String name) {
         return clientRepository.findByName(name);
     }
+
+    public boolean deleteClient(int id) {
+        Client client = clientRepository.findById(id);
+        if (client != null) {
+            return clientRepository.Delete(client);
+        }
+        return false;
+    }
+
+    public Boolean updateClient(Client client) {
+        return clientRepository.update(client) != null;
+    }
+
 }

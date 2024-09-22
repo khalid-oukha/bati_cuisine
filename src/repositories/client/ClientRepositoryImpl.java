@@ -66,4 +66,54 @@ public class ClientRepositoryImpl implements ClientRepository {
         return clients;
     }
 
+    @Override
+    public boolean Delete(Client client) {
+        String sql = "DELETE FROM clients WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, client.getId());
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("Error deleting client: " + e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public Client findById(int id) {
+        String sql = "SELECT * FROM clients WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String name = resultSet.getString("name");
+                String address = resultSet.getString("address");
+                String phone = resultSet.getString("phone");
+                boolean isProfessional = resultSet.getBoolean("isprofessional");
+                return new Client(id, name, address, phone, isProfessional);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching client: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public Client update(Client client) {
+        String sql = "UPDATE clients SET name = ?, address = ?, phone = ?, isprofessional = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, client.getName());
+            statement.setString(2, client.getAddress());
+            statement.setString(3, client.getPhone());
+            statement.setBoolean(4, client.getIsProfessional());
+            statement.setInt(5, client.getId());
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected > 0) {
+                return client;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating client: " + e.getMessage());
+        }
+        return null;
+    }
 }

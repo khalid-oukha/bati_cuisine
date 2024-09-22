@@ -46,4 +46,30 @@ public class Client {
     public void setId(int id) {
         this.id = id;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setIsProfessional(boolean isProfessional) {
+        this.isProfessional = isProfessional;
+    }
+
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", isProfessional=" + isProfessional +
+                '}';
+    }
 }

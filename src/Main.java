@@ -1,18 +1,18 @@
 import entities.Client;
-import entities.Material;
 import entities.Project;
+import handlers.MaterialHandler;
 import handlers.ProjectHandler;
 import views.ClientManagementMenu;
 import views.LaborManagementMenu;
 import views.MaterialManagementMenu;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ProjectHandler projectHandler = new ProjectHandler();
+        MaterialHandler materialHandler = new MaterialHandler();
         ClientManagementMenu clientManagementMenu = new ClientManagementMenu();
         MaterialManagementMenu materialManagementMenu = new MaterialManagementMenu();
         LaborManagementMenu laborManagementMenu = new LaborManagementMenu();
@@ -23,7 +23,7 @@ public class Main {
             System.out.println("=                                  Project Management Menu                                       ");
             System.out.println("================================================================================================");
             System.out.println("=    1. Create a New Project                                                                    ");
-            System.out.println("=    2. Show All Projects                                                                       ");
+            System.out.println("=    2. display project by name                                     ");
             System.out.println("=    3. Calculate Project Cost                                                                 ");
             System.out.println("=    0. Exit                                                                 ");
             System.out.println("================================================================================================");
@@ -36,11 +36,26 @@ public class Main {
                     Client selectedClient = clientManagementMenu.showMenu();
                     Project project = projectHandler.createProject(selectedClient);
 
-                    System.out.println("project name : " + project.getName());
-                    List<Material> materials = materialManagementMenu.showMenu(project);
-                    laborManagementMenu.showMenu(project);
+                    double taxRate = projectHandler.applyTax();
+                    double profitMargin = projectHandler.applyProfitMargin();
+
+                    project.setProfitMargin(profitMargin);
+
+                    materialManagementMenu.showMenu(project, taxRate);
+                    laborManagementMenu.showMenu(project, taxRate);
+
+
+                    projectHandler.updateProject(project);
+                    materialHandler.displayMaterialDetails(project);
+                    laborManagementMenu.displayLabors(project);
+
+                    System.out.println(project.toString());
+
+
+//                  projectHandler.calculateProjectCost(project);
                     break;
                 case 2:
+
                     break;
                 case 3:
                     break;
