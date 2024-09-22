@@ -10,12 +10,17 @@ public class Quote {
     private boolean accepted;
     private Project project;
 
-    public Quote(int id, double estimatedAmount, LocalDate issueDate, LocalDate validityDate, boolean accepted, Project project) {
+    public Quote(int id, double estimatedAmount, LocalDate issueDate, LocalDate validityDate, Project project) {
         this.id = id;
         this.estimatedAmount = estimatedAmount;
         this.issueDate = issueDate;
         this.validityDate = validityDate;
-        this.accepted = accepted;
+        this.accepted = false;
         this.project = project;
     }
+
+    public void acceptQuote() {
+        this.accepted = true;
+    }
+
 }

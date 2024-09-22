@@ -77,4 +77,24 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         }
         return null;
     }
+
+    @Override
+    public Project updateProject(Project project) {
+        String sql = "UPDATE projects SET name = ?, profitmargin = ?, totalcost = ?, client_id = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, project.getName());
+            statement.setDouble(2, project.getProfitMargin());
+            statement.setDouble(3, project.getTotalCost());
+            statement.setInt(4, project.getClient().getId());
+            statement.setInt(5, project.getId());
+
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                return project;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating project: " + e.getMessage());
+        }
+        return null;
+    }
 }
