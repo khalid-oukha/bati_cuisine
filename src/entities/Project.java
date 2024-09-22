@@ -2,6 +2,9 @@ package entities;
 
 import enums.project_status;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Project {
     private int id;
     private String name;
@@ -9,6 +12,7 @@ public class Project {
     private double totalCost;
     private project_status status;
     private Client client;
+    private List<Component> components;
     private double totalCostWithProfitMargin;
 
     public Project(int id, String name, double profitMargin, double totalCost, project_status status, Client client) {
@@ -18,6 +22,7 @@ public class Project {
         this.totalCost = totalCost;
         this.status = status;
         this.client = client;
+        this.components = new ArrayList<>();
     }
 
     public Project(String name, Client client) {
@@ -50,6 +55,14 @@ public class Project {
         return client;
     }
 
+    public double getTotalCostWithProfitMargin() {
+        return totalCostWithProfitMargin;
+    }
+
+    public List<Component> getComponents() {
+        return components;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -68,6 +81,10 @@ public class Project {
 
     public void setTotalCostWithProfitMargin(double totalCostWithProfitMargin) {
         this.totalCostWithProfitMargin = totalCostWithProfitMargin;
+    }
+
+    public void setComponents(List<Component> components) {
+        this.components = components;
     }
 
     public String toString() {

@@ -44,7 +44,7 @@ public class ComponentRepositoryImpl implements ComponentRepository {
 
     @Override
     public Component findById(int id, Project project) {
-        String sql = "SELECT * FROM component WHERE id = ?";
+        String sql = "SELECT * FROM components WHERE id = ?";
         Component component = null;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
@@ -62,5 +62,19 @@ public class ComponentRepositoryImpl implements ComponentRepository {
             System.out.println("Error finding component: " + e.getMessage());
         }
         return component;
+    }
+
+    @Override
+    public boolean update(Component component) {
+        String sql = "UPDATE components SET name = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, component.getName());
+            statement.setInt(2, component.getId());
+
+            return statement.executeUpdate() > 0;
+        } catch (Exception e) {
+            System.out.println("Error updating component: " + e.getMessage());
+        }
+        return false;
     }
 }

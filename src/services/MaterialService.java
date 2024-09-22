@@ -69,4 +69,28 @@ public class MaterialService {
         return result;
     }
 
+    public boolean updateMaterial(int id, String name, Project project, double unitCost, double quantity, double transportCost, double qualityCoefficient) {
+        Component component = componentService.findById(id, project);
+        if (component == null) {
+            return false;
+        }
+
+        Material material = new Material(
+                component.getId(),
+                component.getName(),
+                component.getComponentType(),
+                component.getVatRate(),
+                component.getProject(),
+                unitCost,
+                quantity,
+                transportCost,
+                qualityCoefficient
+        );
+
+        component.setName(name);
+        if (componentService.updateComponent(component, project)) {
+            return materialRepository.update(material);
+        }
+        return false;
+    }
 }

@@ -7,4 +7,6 @@ public interface ComponentRepository {
     boolean create(Component component);
 
     Component findById(int id, Project project);
+
+    boolean update(Component component);
 }

@@ -25,4 +25,7 @@ public class ComponentService {
         return componentRepository.findById(id, project);
     }
 
+    public boolean updateComponent(Component component, Project project) {
+        return componentRepository.update(component);
+    }
 }

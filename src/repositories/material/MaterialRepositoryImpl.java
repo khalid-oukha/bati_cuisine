@@ -72,4 +72,22 @@ public class MaterialRepositoryImpl implements MaterialRepository {
         return materials;
     }
 
+    @Override
+    public boolean update(Material material) {
+        String sql = "UPDATE materials SET unitcost = ?, quantity = ?, transportcost = ?, qualitycoefficient = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setDouble(1, material.getUnitCost());
+            statement.setDouble(2, material.getQuantity());
+            statement.setDouble(3, material.getTransportCost());
+            statement.setDouble(4, material.getQualityCoefficient());
+            statement.setInt(5, material.getId());
+
+            if (statement.executeUpdate() > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating material: " + e.getMessage());
+        }
+        return false;
+    }
 }

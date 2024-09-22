@@ -10,4 +10,5 @@ public interface MaterialRepository {
 
     List<Material> getAll(Project project);
 
+    boolean update(Material material);
 }

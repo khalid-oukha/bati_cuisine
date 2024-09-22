@@ -64,5 +64,4 @@ public class LaborService {
         return result;
     }
 
-
 }

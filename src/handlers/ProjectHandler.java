@@ -66,4 +66,7 @@ public class ProjectHandler {
         return projectService.updateProject(project);
     }
 
+    public Project getProjectById(int id) {
+        return projectService.getProjectById(id);
+    }
 }

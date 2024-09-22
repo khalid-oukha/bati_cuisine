@@ -32,16 +32,27 @@ public class ProjectService {
         return projectRepository.findByName(name);
     }
 
-    public Project updateProject(Project project) {
+    public Project getProjectById(int id) {
+        return projectRepository.findByProjectId(id);
+    }
+
+    public double calculateTotalCostWithProfitMargin(Project project) {
         Map<String, Double> materialsTotalCost = materialService.calculateTotalCostForAllMaterials(project);
         Map<String, Double> laborTotalCost = laborService.calculateAllLaborsCost(project);
 
-        double totalCost = materialsTotalCost.get("TotalCostWithoutVAT") + laborTotalCost.get("TotalCostWithoutVAT");
         double totalCostWithVat = materialsTotalCost.get("TotalCostWithVAT") + laborTotalCost.get("TotalCostWithVAT");
         double profitMargin = project.getProfitMargin();
         double totalCostWithProfitMargin = totalCostWithVat + (totalCostWithVat * profitMargin / 100);
+
         project.setTotalCost(totalCostWithVat);
         project.setTotalCostWithProfitMargin(totalCostWithProfitMargin);
+        return totalCostWithProfitMargin;
+    }
+
+    public Project updateProject(Project project) {
+        double totalCostWithProfitMargin = calculateTotalCostWithProfitMargin(project);
+        project.setTotalCostWithProfitMargin(totalCostWithProfitMargin);
+
         return projectRepository.updateProject(project);
     }
 }
