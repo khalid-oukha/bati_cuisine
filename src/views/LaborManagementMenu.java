@@ -36,4 +36,16 @@ public class LaborManagementMenu {
 
         return addedLabors;
     }
+
+    public void displayLabors(Project project) {
+        System.out.println("================================================================================================");
+        System.out.println("=                                     Labor Details                                             ");
+        System.out.println("================================================================================================");
+        System.out.println("------------------------------------------------------------------------------------------------");
+
+        laborHandler.displayLaborDetails(project);
+
+        System.out.println("================================================================================================");
+
+    }
 }

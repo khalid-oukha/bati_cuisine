@@ -58,4 +58,43 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         }
         return null;
     }
+
+    public Project findByName(String name) {
+        String sql = "SELECT * FROM projects p INNER JOIN clients c ON p.client_id = c.id WHERE p.name = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                int generatedId = resultSet.getInt("id");
+                String projectName = resultSet.getString("name");
+                int clientId = resultSet.getInt("client_id");
+                Client client = new Client(clientId, resultSet.getString("name"), resultSet.getString("email"), resultSet.getString("phone"), resultSet.getBoolean("isprofessional"));
+                Project project = new Project(generatedId, projectName, resultSet.getDouble("profitmargin"), resultSet.getDouble("totalcost"), project_status.valueOf(resultSet.getString("projectstatus")), client);
+                return project;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching project: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public Project updateProject(Project project) {
+        String sql = "UPDATE projects SET name = ?, profitmargin = ?, totalcost = ?, client_id = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, project.getName());
+            statement.setDouble(2, project.getProfitMargin());
+            statement.setDouble(3, project.getTotalCost());
+            statement.setInt(4, project.getClient().getId());
+            statement.setInt(5, project.getId());
+
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                return project;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating project: " + e.getMessage());
+        }
+        return null;
+    }
 }

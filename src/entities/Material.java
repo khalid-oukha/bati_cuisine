@@ -40,4 +40,19 @@ public class Material extends Component {
         return qualityCoefficient;
     }
 
+    @Override
+    public String toString() {
+        return "\n================================================================================================\n" +
+                "=                                     Material Details                                           =\n" +
+                "================================================================================================\n" +
+                "  Material ID       : " + getId() + "\n" +
+                "  Material Name     : '" + getName() + "'\n" +
+                "  Material Type     : " + getComponentType() + "\n" +
+                "  VAT Rate          : " + getVatRate() + "\n" +
+                "  Project           : " + getProject().getName() + "\n" +
+                "  Unit Cost         : " + unitCost + "\n" +
+                "  Quantity          : " + quantity + "\n" +
+                "  Transport Cost    : " + transportCost + "\n" +
+                "  Quality Coefficient: " + qualityCoefficient + "\n";
+    }
 }

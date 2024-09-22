@@ -1,5 +1,4 @@
 import entities.Client;
-import entities.Material;
 import entities.Project;
 import handlers.MaterialHandler;
 import handlers.ProjectHandler;
@@ -7,7 +6,6 @@ import views.ClientManagementMenu;
 import views.LaborManagementMenu;
 import views.MaterialManagementMenu;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -25,7 +23,7 @@ public class Main {
             System.out.println("=                                  Project Management Menu                                       ");
             System.out.println("================================================================================================");
             System.out.println("=    1. Create a New Project                                                                    ");
-            System.out.println("=    2. Show All Projects                                                                       ");
+            System.out.println("=    2. display project by name                                     ");
             System.out.println("=    3. Calculate Project Cost                                                                 ");
             System.out.println("=    0. Exit                                                                 ");
             System.out.println("================================================================================================");
@@ -38,33 +36,26 @@ public class Main {
                     Client selectedClient = clientManagementMenu.showMenu();
                     Project project = projectHandler.createProject(selectedClient);
 
-                    System.out.println("Do you want to apply tax for the project? (YES:1 / NO:2): ");
-                    int taxChoice = scanner.nextInt();
-                    scanner.nextLine();
-                    double taxRate = 0;
-                    if (taxChoice == 1) {
-                        System.out.println("Enter the tax rate (20%) : ");
-                        taxRate = scanner.nextDouble() / 100;
-                    }
+                    double taxRate = projectHandler.applyTax();
+                    double profitMargin = projectHandler.applyProfitMargin();
 
+                    project.setProfitMargin(profitMargin);
 
-                    List<Material> materials = materialManagementMenu.showMenu(project, taxRate);
+                    materialManagementMenu.showMenu(project, taxRate);
                     laborManagementMenu.showMenu(project, taxRate);
 
-                    double profitMargin = 0;
-                    System.out.println("Do you want to add profit margin tax for the project? (YES:1 / NO:2): ");
-                    int profitChoice = scanner.nextInt();
-                    scanner.nextLine();
 
-                    if (profitChoice == 1) {
-                        System.out.println("Enter the profit margin (20%) : ");
-                        profitMargin = scanner.nextDouble();
-                    }
+                    projectHandler.updateProject(project);
+                    materialHandler.displayMaterialDetails(project);
+                    laborManagementMenu.displayLabors(project);
 
                     System.out.println(project.toString());
-                    materialManagementMenu.displayMaterialDetails(materials);
+
+
+//                  projectHandler.calculateProjectCost(project);
                     break;
                 case 2:
+
                     break;
                 case 3:
                     break;
