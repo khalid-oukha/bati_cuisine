@@ -15,4 +15,6 @@ public interface ClientRepository {
     boolean Delete(Client client);
 
     Client update(Client client);
+
+    List<Client> getAllClients();
 }

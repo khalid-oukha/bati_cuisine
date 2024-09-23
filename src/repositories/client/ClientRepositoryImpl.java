@@ -3,10 +3,7 @@ package repositories.client;
 import config.DatabaseConfig;
 import entities.Client;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -120,4 +117,19 @@ public class ClientRepositoryImpl implements ClientRepository {
         return null;
     }
 
+    @Override
+    public List<Client> getAllClients() {
+        String sql = "SELECT * FROM clients";
+        List<Client> clients = new ArrayList<>();
+        try (Statement statement = connection.prepareStatement(sql)) {
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                Client client = new Client(rs.getString("name"), rs.getString("address"), rs.getString("phone"), rs.getBoolean("isprofessional"));
+                clients.add(client);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return clients;
+    }
 }

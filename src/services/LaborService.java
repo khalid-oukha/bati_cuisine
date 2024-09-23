@@ -49,14 +49,27 @@ public class LaborService {
         return labor.getHourlyRate() * labor.getWorkingHours() * labor.getWorkerProductivity();
     }
 
-    public Map<String, Double> calculateAllLaborsCost(Project project) {
-        double allLaborsCost = 0;
-        double allLaborsCostWithVat = 0;
+//    public Map<String, Double> calculateAllLaborsCost(Project project) {
+//        double allLaborsCost = 0;
+//        double allLaborsCostWithVat = 0;
+//
+//        for (Labor labor : laborRepository.getAll(project)) {
+//            allLaborsCost += calculateLaborCost(labor);
+//            allLaborsCostWithVat += calculateLaborCost(labor) * (1 + labor.getVatRate());
+//        }
+//
+//        Map<String, Double> result = new HashMap<>();
+//        result.put("TotalCostWithoutVAT", allLaborsCost);
+//        result.put("TotalCostWithVAT", allLaborsCostWithVat);
+//
+//        return result;
+//    }
 
-        for (Labor labor : laborRepository.getAll(project)) {
-            allLaborsCost += calculateLaborCost(labor);
-            allLaborsCostWithVat += calculateLaborCost(labor) * (1 + labor.getVatRate());
-        }
+    public Map<String, Double> calculateAllLaborsCost(Project project) {
+
+        List<Labor> labors = laborRepository.getAll(project);
+        double allLaborsCost = labors.stream().mapToDouble(this::calculateLaborCost).sum();
+        double allLaborsCostWithVat = labors.stream().mapToDouble(labor -> calculateLaborCost(labor) * (1 + labor.getVatRate())).sum();
 
         Map<String, Double> result = new HashMap<>();
         result.put("TotalCostWithoutVAT", allLaborsCost);
