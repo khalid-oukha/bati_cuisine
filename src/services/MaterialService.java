@@ -57,27 +57,25 @@ public class MaterialService {
         return calculateTotalCost(material) * (1 + material.getVatRate());
     }
 
-    public Map<String, Double> calculateTotalCostForAllMaterials(Project project) {
-        double allMaterialtotalCost = 0;
-        double AllMaterialstotalCostWithVat = 0;
-        for (Material material : materialRepository.getAll(project)) {
-            allMaterialtotalCost += calculateTotalCost(material);
-            AllMaterialstotalCostWithVat += calculateTotalCostWithVat(material);
-        }
-        Map<String, Double> result = new HashMap<>();
-        result.put("TotalCostWithoutVAT", allMaterialtotalCost);
-        result.put("TotalCostWithVAT", AllMaterialstotalCostWithVat);
-        return result;
-    }
-
-    public Map<String, Double> calculateTotalCostForAllMaterialsUsingStream(Project project) {
-        double allMaterialtotalCost = 0;
-        double AllMaterialstotalCostWithVat = 0;
+//    public Map<String, Double> calculateTotalCostForAllMaterials(Project project) {
+//        double allMaterialtotalCost = 0;
+//        double AllMaterialstotalCostWithVat = 0;
 //        for (Material material : materialRepository.getAll(project)) {
 //            allMaterialtotalCost += calculateTotalCost(material);
 //            AllMaterialstotalCostWithVat += calculateTotalCostWithVat(material);
 //        }
-        
+//        Map<String, Double> result = new HashMap<>();
+//        result.put("TotalCostWithoutVAT", allMaterialtotalCost);
+//        result.put("TotalCostWithVAT", AllMaterialstotalCostWithVat);
+//        return result;
+//    }
+
+    public Map<String, Double> calculateTotalCostForAllMaterials(Project project) {
+        double allMaterialtotalCost = 0;
+        double AllMaterialstotalCostWithVat = 0;
+        List<Material> materials = materialRepository.getAll(project);
+        allMaterialtotalCost = materials.stream().mapToDouble(this::calculateTotalCost).sum();
+        AllMaterialstotalCostWithVat = materials.stream().mapToDouble(this::calculateTotalCostWithVat).sum();
         Map<String, Double> result = new HashMap<>();
         result.put("TotalCostWithoutVAT", allMaterialtotalCost);
         result.put("TotalCostWithVAT", AllMaterialstotalCostWithVat);
