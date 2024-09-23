@@ -28,4 +28,8 @@ public class ComponentService {
     public boolean updateComponent(Component component, Project project) {
         return componentRepository.update(component);
     }
+
+    public boolean deleteComponent(Component component) {
+        return componentRepository.delete(component);
+    }
 }

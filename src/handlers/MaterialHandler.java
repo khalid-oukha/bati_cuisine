@@ -81,6 +81,27 @@ public class MaterialHandler {
                         material -> System.out.println("Material updated successfully"),
                         () -> System.out.println("Material not found")
                 );
+    }
+
+    public Material findById(Project project) {
+        System.out.println("Enter material id: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        return materialService.findById(id, project);
+    }
+
+    public void deleteMaterial(Project project) {
+        System.out.println("Enter material id: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+
+        if (materialService.deleteMaterial(id, project)) {
+            System.out.println("Material deleted successfully");
+        } else {
+            System.out.println("Material not found");
+        }
 
     }
 }

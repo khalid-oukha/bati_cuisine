@@ -51,7 +51,7 @@ public class ProjectManagmentMenu {
                     projectHandler.updateProject(project);
                     break;
                 case 4:
-                    // Delete material from project
+                    materialHandler.deleteMaterial(project);
                     break;
                 case 5:
                     // View labors in project

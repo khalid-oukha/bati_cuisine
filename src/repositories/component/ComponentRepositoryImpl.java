@@ -77,4 +77,16 @@ public class ComponentRepositoryImpl implements ComponentRepository {
         }
         return false;
     }
+
+    @Override
+    public boolean delete(Component component) {
+        String sql = "DELETE FROM components WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, component.getId());
+            return statement.executeUpdate() > 0;
+        } catch (Exception e) {
+            System.out.println("Error deleting component: " + e.getMessage());
+        }
+        return false;
+    }
 }

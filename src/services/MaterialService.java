@@ -93,4 +93,16 @@ public class MaterialService {
         }
         return false;
     }
+
+    public Material findById(int id, Project project) {
+        return materialRepository.findById(id, project);
+    }
+
+    public boolean deleteMaterial(int id, Project project) {
+        Component component = componentService.findById(id, project);
+        if (component == null) {
+            return false;
+        }
+        return componentService.deleteComponent(component);
+    }
 }

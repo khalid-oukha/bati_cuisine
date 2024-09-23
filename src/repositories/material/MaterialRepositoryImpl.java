@@ -90,4 +90,31 @@ public class MaterialRepositoryImpl implements MaterialRepository {
         }
         return false;
     }
+
+    @Override
+    public Material findById(int id, Project project) {
+        String sql = "SELECT * FROM components INNER JOIN materials ON components.id = materials.id WHERE id = ?";
+        Material material = null;
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            var resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                material = new Material(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        ComponentType.valueOf(resultSet.getString("componentType")),
+                        resultSet.getDouble("vatrate"),
+                        project,
+                        resultSet.getDouble("unitcost"),
+                        resultSet.getDouble("quantity"),
+                        resultSet.getDouble("transportcost"),
+                        resultSet.getDouble("qualitycoefficient")
+                );
+            }
+        } catch (Exception e) {
+            System.out.println("Error finding material: " + e.getMessage());
+        }
+        return material;
+    }
+
 }

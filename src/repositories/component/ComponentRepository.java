@@ -9,4 +9,6 @@ public interface ComponentRepository {
     Component findById(int id, Project project);
 
     boolean update(Component component);
+
+    boolean delete(Component component);
 }
