@@ -30,7 +30,7 @@ public class LaborHandler {
 
     public void displayLaborDetails(Project project) {
         for (Labor labor : laborService.getAllLabors(project)) {
-            System.out.println("[" + labor.getName() + "]" + "\t\t Hourly Rate : " + labor.getHourlyRate() + "\t\t Working Hours : " + labor.getWorkingHours() + "\t\t Worker Productivity : " + labor.getWorkerProductivity() + "\n" +
+            System.out.println("[" + "ID : " + labor.getId() + " - Name : " + labor.getName() + "]" + "\t\t Hourly Rate : " + labor.getHourlyRate() + "\t\t Working Hours : " + labor.getWorkingHours() + "\t\t Worker Productivity : " + labor.getWorkerProductivity() + "\n" +
                     "Total Cost: " + laborService.calculateLaborCost(labor) + "\n" +
                     "Total Cost with VAT: " + laborService.calculateLaborCost(labor) * (1 + labor.getVatRate()) + "\n");
             System.out.println("------------------------------------------------------------------------------------------------");
@@ -43,7 +43,7 @@ public class LaborHandler {
 
     }
 
-    public void updateLabor(Project project){
+    public void updateLabor(Project project) {
         System.out.println("================================================================================================");
         System.out.println("=                                     Update Labor                                            ");
         System.out.println("================================================================================================");
@@ -67,10 +67,23 @@ public class LaborHandler {
         scanner.nextLine();
         System.out.println("================================================================================================");
 
-        if (laborService.updateLabor(id, name,project, hourlyRate, workingHours, workerProductivity)) {
+        if (laborService.updateLabor(id, name, project, hourlyRate, workingHours, workerProductivity)) {
             System.out.println("Labor updated successfully");
         } else {
             System.out.println("Error updating labor");
+        }
+    }
+
+    public void deleteLabor(Project project) {
+        System.out.println("Enter labor id: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+
+        if (laborService.deleteLabor(id, project)) {
+            System.out.println("Labor deleted successfully");
+        } else {
+            System.out.println("Labor not found");
         }
     }
 }

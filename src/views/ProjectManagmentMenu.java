@@ -63,7 +63,10 @@ public class ProjectManagmentMenu {
                     laborHandler.addLabor(project, vatRate);
                     break;
                 case 7:
-                    // Update labor in project
+                    laborHandler.updateLabor(project);
+                    break;
+                case 8:
+                    laborHandler.deleteLabor(project);
                     break;
                 case 0:
                     System.out.println("Exiting project management.");

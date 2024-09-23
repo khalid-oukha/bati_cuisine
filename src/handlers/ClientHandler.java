@@ -5,6 +5,7 @@ import helpers.InputValidator;
 import services.ClientService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class ClientHandler {
@@ -120,11 +121,12 @@ public class ClientHandler {
         int id = scanner.nextInt();
         scanner.nextLine();
 
-        Client client = clientService.findClientById(id);
-        if (client == null) {
+        Optional<Client> optionalClient = clientService.findClientById(id);
+        if (optionalClient.isEmpty()) {
             System.out.println("Error: Client not found.");
             return null;
         }
+        Client client = optionalClient.get();
 
         System.out.println("  Enter new client name (3-50 characters): ");
         String name = scanner.nextLine();
@@ -181,8 +183,9 @@ public class ClientHandler {
         int id = scanner.nextInt();
         scanner.nextLine();
 
-        Client client = clientService.findClientById(id);
-        if (client != null) {
+        Optional<Client> optionalClient = clientService.findClientById(id);
+        if (optionalClient.isPresent()) {
+            Client client = optionalClient.get();
             System.out.println("Client found successfully.");
             System.out.println(client);
 
@@ -191,7 +194,10 @@ public class ClientHandler {
             if (continueInput.equalsIgnoreCase("Y")) {
                 return client;
             }
+        } else {
+            System.out.println("No client found with the given ID.");
         }
         return null;
     }
+
 }

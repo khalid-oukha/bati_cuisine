@@ -82,7 +82,7 @@ public class LaborService {
         );
 
         component.setName(name);
-        if (componentService.updateComponent(component,project)) {
+        if (componentService.updateComponent(component, project)) {
             return laborRepository.update(labor);
         }
         return false;
@@ -90,5 +90,13 @@ public class LaborService {
 
     public Labor getLaborById(int id, Project project) {
         return laborRepository.findById(id, project);
+    }
+
+    public boolean deleteLabor(int id, Project project) {
+        Component component = componentService.findById(id, project);
+        if (component == null) {
+            return false;
+        }
+        return componentService.deleteComponent(component);
     }
 }

@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ClientRepositoryImpl implements ClientRepository {
 
@@ -80,7 +81,7 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
-    public Client findById(int id) {
+    public Optional<Client> findById(int id) {
         String sql = "SELECT * FROM clients WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
@@ -90,13 +91,15 @@ public class ClientRepositoryImpl implements ClientRepository {
                 String address = resultSet.getString("address");
                 String phone = resultSet.getString("phone");
                 boolean isProfessional = resultSet.getBoolean("isprofessional");
-                return new Client(id, name, address, phone, isProfessional);
+                Client client = new Client(id, name, address, phone, isProfessional);
+                return Optional.of(client);
             }
         } catch (SQLException e) {
             System.out.println("Error fetching client: " + e.getMessage());
         }
-        return null;
+        return Optional.empty();
     }
+
 
     @Override
     public Client update(Client client) {
