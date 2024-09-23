@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MaterialRepositoryImpl implements MaterialRepository {
 
@@ -92,14 +93,13 @@ public class MaterialRepositoryImpl implements MaterialRepository {
     }
 
     @Override
-    public Material findById(int id, Project project) {
+    public Optional<Material> findById(int id, Project project) {
         String sql = "SELECT * FROM components INNER JOIN materials ON components.id = materials.id WHERE id = ?";
-        Material material = null;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             var resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                material = new Material(
+                return Optional.of(new Material(
                         resultSet.getInt("id"),
                         resultSet.getString("name"),
                         ComponentType.valueOf(resultSet.getString("componentType")),
@@ -109,12 +109,12 @@ public class MaterialRepositoryImpl implements MaterialRepository {
                         resultSet.getDouble("quantity"),
                         resultSet.getDouble("transportcost"),
                         resultSet.getDouble("qualitycoefficient")
-                );
+                ));
             }
         } catch (Exception e) {
             System.out.println("Error finding material: " + e.getMessage());
         }
-        return material;
+        return Optional.empty();
     }
 
 }

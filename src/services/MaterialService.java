@@ -75,7 +75,7 @@ public class MaterialService {
         if (componentOptional.isEmpty()) {
             return false;
         }
-        
+
         Component component = componentOptional.get();
         Material material = new Material(
                 component.getId(),
@@ -97,7 +97,8 @@ public class MaterialService {
     }
 
     public Material findById(int id, Project project) {
-        return materialRepository.findById(id, project);
+        Optional<Material> material = materialRepository.findById(id, project);
+        return material.orElse(null);
     }
 
     public boolean deleteMaterial(int id, Project project) {
