@@ -43,4 +43,34 @@ public class LaborHandler {
 
     }
 
+    public void updateLabor(Project project){
+        System.out.println("================================================================================================");
+        System.out.println("=                                     Update Labor                                            ");
+        System.out.println("================================================================================================");
+        System.out.println("Enter labor id: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        Labor labor = laborService.getLaborById(id, project);
+        if (labor == null) {
+            System.out.println("Labor not found");
+            return;
+        }
+        System.out.println("Enter new labor name: ");
+        String name = scanner.nextLine();
+        System.out.println("Enter new labor hourly rate (? DH per 1h): ");
+        double hourlyRate = scanner.nextDouble();
+        scanner.nextLine();
+        System.out.println("Enter new labor working hours : ");
+        double workingHours = scanner.nextDouble();
+        System.out.println("Enter new labor worker productivity : ");
+        double workerProductivity = scanner.nextDouble();
+        scanner.nextLine();
+        System.out.println("================================================================================================");
+
+        if (laborService.updateLabor(id, name,project, hourlyRate, workingHours, workerProductivity)) {
+            System.out.println("Labor updated successfully");
+        } else {
+            System.out.println("Error updating labor");
+        }
+    }
 }

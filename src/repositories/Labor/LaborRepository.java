@@ -9,4 +9,8 @@ public interface LaborRepository {
     boolean create(Labor labor);
 
     List<Labor> getAll(Project project);
+
+    boolean update(Labor labor);
+
+    Labor findById(int id, Project project);
 }

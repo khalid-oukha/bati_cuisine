@@ -2,6 +2,7 @@ package views;
 
 import entities.Project;
 import handlers.ComponentHandler;
+import handlers.LaborHandler;
 import handlers.MaterialHandler;
 import handlers.ProjectHandler;
 
@@ -11,6 +12,7 @@ public class ProjectManagmentMenu {
     private final Scanner scanner = new Scanner(System.in);
     private final ProjectHandler projectHandler;
     private final MaterialHandler materialHandler = new MaterialHandler();
+    private final LaborHandler laborHandler = new LaborHandler();
     ComponentHandler componentHandler = new ComponentHandler();
 
     public ProjectManagmentMenu() {
@@ -30,8 +32,9 @@ public class ProjectManagmentMenu {
             System.out.println("=    3. Update material in project                                                               ");
             System.out.println("=    4. Delete material from project                                                             ");
             System.out.println("=    5. View labors in project                                                                   ");
-            System.out.println("=    6. Delete labor from project                                                                ");
+            System.out.println("=    6. Add labor for project                                                                ");
             System.out.println("=    7. Update labors in project                                                                 ");
+            System.out.println("=    8. Delete labors in project                                                                 ");
             System.out.println("=    0. Exit                                                                                     ");
             System.out.println("================================================================================================");
             System.out.print("=    Please Enter Your Option: ");
@@ -54,10 +57,10 @@ public class ProjectManagmentMenu {
                     materialHandler.deleteMaterial(project);
                     break;
                 case 5:
-                    // View labors in project
+                    laborHandler.displayLaborDetails(project);
                     break;
                 case 6:
-                    // Delete labor from project
+                    laborHandler.addLabor(project, vatRate);
                     break;
                 case 7:
                     // Update labor in project

@@ -64,4 +64,31 @@ public class LaborService {
         return result;
     }
 
+    public boolean updateLabor(int id, String name, Project project, double hourlyRate, double workingHours, double workerProductivity) {
+        Component component = componentService.findById(id, project);
+        if (component == null) {
+            return false;
+        }
+
+        Labor labor = new Labor(
+                component.getId(),
+                name,
+                ComponentType.LABOUR,
+                component.getVatRate(),
+                hourlyRate,
+                workingHours,
+                workerProductivity,
+                project
+        );
+
+        component.setName(name);
+        if (componentService.updateComponent(component,project)) {
+            return laborRepository.update(labor);
+        }
+        return false;
+    }
+
+    public Labor getLaborById(int id, Project project) {
+        return laborRepository.findById(id, project);
+    }
 }
