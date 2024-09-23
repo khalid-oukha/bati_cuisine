@@ -70,6 +70,20 @@ public class MaterialService {
         return result;
     }
 
+    public Map<String, Double> calculateTotalCostForAllMaterialsUsingStream(Project project) {
+        double allMaterialtotalCost = 0;
+        double AllMaterialstotalCostWithVat = 0;
+//        for (Material material : materialRepository.getAll(project)) {
+//            allMaterialtotalCost += calculateTotalCost(material);
+//            AllMaterialstotalCostWithVat += calculateTotalCostWithVat(material);
+//        }
+        
+        Map<String, Double> result = new HashMap<>();
+        result.put("TotalCostWithoutVAT", allMaterialtotalCost);
+        result.put("TotalCostWithVAT", AllMaterialstotalCostWithVat);
+        return result;
+    }
+
     public boolean updateMaterial(int id, String name, Project project, double unitCost, double quantity, double transportCost, double qualityCoefficient) {
         Optional<Component> componentOptional = componentService.findById(id, project);
         if (componentOptional.isEmpty()) {

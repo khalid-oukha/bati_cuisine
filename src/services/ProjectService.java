@@ -6,8 +6,10 @@ import enums.project_status;
 import repositories.project.ProjectRepository;
 import repositories.project.ProjectRepositoryImpl;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ProjectService {
     private final ProjectRepository projectRepository;
@@ -56,4 +58,11 @@ public class ProjectService {
 
         return projectRepository.updateProject(project);
     }
+
+    public HashMap<Integer, Project> getCompleteProjects() {
+        HashMap<Integer, Project> projects = projectRepository.findAllProjects();
+        return projects.entrySet().stream().filter(project -> project.getValue().getStatus() == project_status.COMPLETED)
+                .collect(Collectors.toMap(project -> project.getKey(), project -> project.getValue(), (e1, e2) -> e1, HashMap::new));
+    }
+
 }

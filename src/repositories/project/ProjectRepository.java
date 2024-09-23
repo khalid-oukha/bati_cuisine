@@ -2,6 +2,7 @@ package repositories.project;
 
 import entities.Project;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 public interface ProjectRepository {
@@ -12,4 +13,6 @@ public interface ProjectRepository {
     Project findByName(String name);
 
     Project updateProject(Project project);
+
+    HashMap<Integer, Project> findAllProjects();
 }

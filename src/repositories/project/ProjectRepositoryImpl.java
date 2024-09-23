@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -154,5 +155,37 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             System.out.println("Error updating project: " + e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public HashMap<Integer, Project> findAllProjects() {
+        String sql = "SELECT p.id AS project_id, p.name AS project_name, p.profitmargin, p.totalcost, p.projectstatus, " +
+                "c.id AS client_id, c.name AS client_name, c.address, c.phone, c.isprofessional " +
+                "FROM projects p " +
+                "INNER JOIN clients c ON p.client_id = c.id ";
+        HashMap<Integer, Project> projects = new HashMap<>();
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                int projectId = resultSet.getInt("project_id");
+                String projectName = resultSet.getString("project_name");
+                double profitMargin = resultSet.getDouble("profitmargin");
+                double totalCost = resultSet.getDouble("totalcost");
+                project_status projectStatus = project_status.valueOf(resultSet.getString("projectstatus"));
+
+                int clientId = resultSet.getInt("client_id");
+                String clientName = resultSet.getString("client_name");
+                String address = resultSet.getString("address");
+                String phone = resultSet.getString("phone");
+                boolean isProfessional = resultSet.getBoolean("isprofessional");
+
+                Client client = new Client(clientId, clientName, address, phone, isProfessional);
+                Project project = new Project(projectId, projectName, profitMargin, totalCost, projectStatus, client);
+                projects.put(projectId, project);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching project: " + e.getMessage());
+        }
+        return projects;
     }
 }
