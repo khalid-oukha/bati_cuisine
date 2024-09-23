@@ -6,6 +6,8 @@ import enums.ComponentType;
 import repositories.component.ComponentRepository;
 import repositories.component.ComponentRepositoryImpl;
 
+import java.util.Optional;
+
 public class ComponentService {
     private final ComponentRepository componentRepository;
 
@@ -21,7 +23,7 @@ public class ComponentService {
         return null;
     }
 
-    public Component findById(int id, Project project) {
+    public Optional<Component> findById(int id, Project project) {
         return componentRepository.findById(id, project);
     }
 

@@ -4,6 +4,7 @@ import entities.Client;
 import entities.Project;
 import services.ProjectService;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 public class ProjectHandler {
@@ -66,7 +67,7 @@ public class ProjectHandler {
         return projectService.updateProject(project);
     }
 
-    public Project getProjectById(int id) {
+    public Optional<Project> getProjectById(int id) {
         return projectService.getProjectById(id);
     }
 }

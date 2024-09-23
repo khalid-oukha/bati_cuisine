@@ -6,6 +6,7 @@ import repositories.Quote.QuoteRepository;
 import repositories.Quote.QuoteRepositoryImpl;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class QuoteService {
     private final QuoteRepository quoteRepository;
@@ -16,12 +17,20 @@ public class QuoteService {
     }
 
     public boolean addQuote(LocalDate issueDate, LocalDate validityDate, int projectId) {
+        Optional<Project> optionalProject = projectService.getProjectById(projectId);
 
-        Project project = projectService.getProjectById(projectId);
-        System.out.println(project.toString());
-        double estimatedAmount = projectService.calculateTotalCostWithProfitMargin(project);
+        if (optionalProject.isPresent()) {
+            Project project = optionalProject.get();
+            System.out.println(project.toString());
 
-        Quote quote = new Quote(estimatedAmount, issueDate, validityDate, project);
-        return quoteRepository.createQuote(quote);
+            double estimatedAmount = projectService.calculateTotalCostWithProfitMargin(project);
+            Quote quote = new Quote(estimatedAmount, issueDate, validityDate, project);
+
+            return quoteRepository.createQuote(quote);
+        } else {
+            System.out.println("Project not found with ID: " + projectId);
+            return false;
+        }
     }
+
 }

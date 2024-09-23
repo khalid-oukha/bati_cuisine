@@ -10,10 +10,11 @@ import repositories.Labor.LaborRepositoryImpl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class LaborService {
-    private LaborRepository laborRepository;
-    private ComponentService componentService;
+    private final LaborRepository laborRepository;
+    private final ComponentService componentService;
 
     public LaborService() {
         this.laborRepository = new LaborRepositoryImpl();
@@ -65,11 +66,12 @@ public class LaborService {
     }
 
     public boolean updateLabor(int id, String name, Project project, double hourlyRate, double workingHours, double workerProductivity) {
-        Component component = componentService.findById(id, project);
-        if (component == null) {
+        Optional<Component> componentOptional = componentService.findById(id, project);
+        if (componentOptional.isEmpty()) {
             return false;
         }
 
+        Component component = componentOptional.get();
         Labor labor = new Labor(
                 component.getId(),
                 name,
@@ -89,14 +91,12 @@ public class LaborService {
     }
 
     public Labor getLaborById(int id, Project project) {
-        return laborRepository.findById(id, project);
+        Optional<Labor> optionalLabor = laborRepository.findById(id, project);
+        return optionalLabor.orElse(null);
     }
 
     public boolean deleteLabor(int id, Project project) {
-        Component component = componentService.findById(id, project);
-        if (component == null) {
-            return false;
-        }
-        return componentService.deleteComponent(component);
+        Optional<Component> componentOptional = componentService.findById(id, project);
+        return componentOptional.map(componentService::deleteComponent).orElse(false);
     }
 }

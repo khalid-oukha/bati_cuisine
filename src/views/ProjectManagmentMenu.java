@@ -6,6 +6,7 @@ import handlers.LaborHandler;
 import handlers.MaterialHandler;
 import handlers.ProjectHandler;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 public class ProjectManagmentMenu {
@@ -82,12 +83,12 @@ public class ProjectManagmentMenu {
         System.out.print("Enter the project ID you want to manage: ");
         int projectId = scanner.nextInt();
         scanner.nextLine();
-        Project project = projectHandler.getProjectById(projectId);
+        Optional<Project> optionalProject = projectHandler.getProjectById(projectId);
 
-        if (project == null) {
-            System.out.println("Project not found with ID: " + projectId);
+        if (optionalProject.isPresent()) {
+            return optionalProject.get();
         }
-
-        return project;
+        System.out.println("Project not found with ID: " + projectId);
+        return null;
     }
 }

@@ -7,6 +7,7 @@ import repositories.project.ProjectRepository;
 import repositories.project.ProjectRepositoryImpl;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class ProjectService {
     private final ProjectRepository projectRepository;
@@ -32,7 +33,7 @@ public class ProjectService {
         return projectRepository.findByName(name);
     }
 
-    public Project getProjectById(int id) {
+    public Optional<Project> getProjectById(int id) {
         return projectRepository.findByProjectId(id);
     }
 

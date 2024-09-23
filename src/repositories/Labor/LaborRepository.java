@@ -4,6 +4,7 @@ import entities.Labor;
 import entities.Project;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LaborRepository {
     boolean create(Labor labor);
@@ -12,5 +13,5 @@ public interface LaborRepository {
 
     boolean update(Labor labor);
 
-    Labor findById(int id, Project project);
+    Optional<Labor> findById(int id, Project project);
 }

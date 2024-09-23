@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ProjectRepositoryImpl implements ProjectRepository {
     private Connection connection;
@@ -45,7 +46,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
-    public Project findByProjectId(int id) {
+    public Optional<Project> findByProjectId(int id) {
         String sqlProject = "SELECT p.id AS project_id, p.name AS project_name, p.profitmargin, p.totalcost, p.projectstatus, " +
                 "c.id AS client_id, c.name AS client_name, c.address, c.phone, c.isprofessional " +
                 "FROM projects p " +
@@ -94,13 +95,13 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
                 project.setComponents(components);
 
-                return project;
+                return Optional.of(project);
             }
 
         } catch (SQLException e) {
             System.out.println("Error fetching project: " + e.getMessage());
         }
-        return null;
+        return Optional.empty();
     }
 
     public Project findByName(String name) {

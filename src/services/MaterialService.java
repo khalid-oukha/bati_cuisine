@@ -10,6 +10,7 @@ import repositories.material.MaterialRepositoryImpl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class MaterialService {
     private final MaterialRepository materialRepository;
@@ -70,11 +71,12 @@ public class MaterialService {
     }
 
     public boolean updateMaterial(int id, String name, Project project, double unitCost, double quantity, double transportCost, double qualityCoefficient) {
-        Component component = componentService.findById(id, project);
-        if (component == null) {
+        Optional<Component> componentOptional = componentService.findById(id, project);
+        if (componentOptional.isEmpty()) {
             return false;
         }
-
+        
+        Component component = componentOptional.get();
         Material material = new Material(
                 component.getId(),
                 component.getName(),
@@ -99,10 +101,20 @@ public class MaterialService {
     }
 
     public boolean deleteMaterial(int id, Project project) {
-        Component component = componentService.findById(id, project);
-        if (component == null) {
+        try {
+            Optional<Component> componentOpt = componentService.findById(id, project);
+
+            if (componentOpt.isPresent()) {
+                Component component = componentOpt.get();
+                return componentService.deleteComponent(component);
+            } else {
+                System.out.println("Error: Component not found for ID " + id);
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
             return false;
         }
-        return componentService.deleteComponent(component);
     }
+
 }
