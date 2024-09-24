@@ -4,7 +4,10 @@ import entities.Client;
 import repositories.client.ClientRepository;
 import repositories.client.ClientRepositoryImpl;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ClientService {
     private final ClientRepository clientRepository;
@@ -21,7 +24,7 @@ public class ClientService {
         return null;
     }
 
-    public Client findClientById(int id) {
+    public Optional<Client> findClientById(int id) {
         return clientRepository.findById(id);
     }
 
@@ -30,8 +33,9 @@ public class ClientService {
     }
 
     public boolean deleteClient(int id) {
-        Client client = clientRepository.findById(id);
-        if (client != null) {
+        Optional<Client> optionalClient = clientRepository.findById(id);
+        if (optionalClient.isPresent()) {
+            Client client = optionalClient.get();
             return clientRepository.Delete(client);
         }
         return false;
@@ -41,4 +45,19 @@ public class ClientService {
         return clientRepository.update(client) != null;
     }
 
+    public List<Client> findAllClients() {
+        return clientRepository.getAllClients();
+    }
+
+    public Client findClientByAddress(String address) {
+        List<Client> clients = clientRepository.getAllClients();
+        Optional<Client> clientOptional = clients.stream().filter(c -> c.getAddress().equals(address)).findFirst();
+        return clientOptional.orElse(null);
+    }
+
+    public List<Client> sortByName() {
+        List<Client> clients = clientRepository.getAllClients();
+        return clients.stream().sorted(Comparator.comparing(client -> client.getAddress()))
+                .collect(Collectors.toList());
+    }
 }

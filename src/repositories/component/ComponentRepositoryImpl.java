@@ -8,6 +8,7 @@ import enums.ComponentType;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Optional;
 
 public class ComponentRepositoryImpl implements ComponentRepository {
     private Connection connection;
@@ -43,24 +44,49 @@ public class ComponentRepositoryImpl implements ComponentRepository {
     }
 
     @Override
-    public Component findById(int id, Project project) {
-        String sql = "SELECT * FROM component WHERE id = ?";
-        Component component = null;
+    public Optional<Component> findById(int id, Project project) {
+        String sql = "SELECT * FROM components WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             var resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                component = new Component(
+                return Optional.of(new Component(
                         resultSet.getInt("id"),
                         resultSet.getString("name"),
                         ComponentType.valueOf(resultSet.getString("componentType")),
                         resultSet.getDouble("vatrate"),
                         project
-                );
+                ));
             }
         } catch (Exception e) {
             System.out.println("Error finding component: " + e.getMessage());
         }
-        return component;
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean update(Component component) {
+        String sql = "UPDATE components SET name = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, component.getName());
+            statement.setInt(2, component.getId());
+
+            return statement.executeUpdate() > 0;
+        } catch (Exception e) {
+            System.out.println("Error updating component: " + e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public boolean delete(Component component) {
+        String sql = "DELETE FROM components WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, component.getId());
+            return statement.executeUpdate() > 0;
+        } catch (Exception e) {
+            System.out.println("Error deleting component: " + e.getMessage());
+        }
+        return false;
     }
 }

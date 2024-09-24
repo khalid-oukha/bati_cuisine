@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MaterialRepositoryImpl implements MaterialRepository {
 
@@ -70,6 +71,50 @@ public class MaterialRepositoryImpl implements MaterialRepository {
             System.out.println("Error getting materials: " + e.getMessage());
         }
         return materials;
+    }
+
+    @Override
+    public boolean update(Material material) {
+        String sql = "UPDATE materials SET unitcost = ?, quantity = ?, transportcost = ?, qualitycoefficient = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setDouble(1, material.getUnitCost());
+            statement.setDouble(2, material.getQuantity());
+            statement.setDouble(3, material.getTransportCost());
+            statement.setDouble(4, material.getQualityCoefficient());
+            statement.setInt(5, material.getId());
+
+            if (statement.executeUpdate() > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating material: " + e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public Optional<Material> findById(int id, Project project) {
+        String sql = "SELECT * FROM components INNER JOIN materials ON components.id = materials.id WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            var resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return Optional.of(new Material(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        ComponentType.valueOf(resultSet.getString("componentType")),
+                        resultSet.getDouble("vatrate"),
+                        project,
+                        resultSet.getDouble("unitcost"),
+                        resultSet.getDouble("quantity"),
+                        resultSet.getDouble("transportcost"),
+                        resultSet.getDouble("qualitycoefficient")
+                ));
+            }
+        } catch (Exception e) {
+            System.out.println("Error finding material: " + e.getMessage());
+        }
+        return Optional.empty();
     }
 
 }

@@ -13,7 +13,8 @@ public class DatabaseConfig {
     private static final String PASSWORD = "admin";
     private static Connection connection = null;
 
-    private DatabaseConfig() {}
+    private DatabaseConfig() {
+    }
 
     public static DatabaseConfig getInstance() {
         return INSTANCE;

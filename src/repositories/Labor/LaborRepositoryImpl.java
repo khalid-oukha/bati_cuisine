@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class LaborRepositoryImpl implements LaborRepository {
     private Connection connection;
@@ -68,5 +69,48 @@ public class LaborRepositoryImpl implements LaborRepository {
             System.out.println("Error fetching labors: " + e.getMessage());
         }
         return labors;
+    }
+
+    @Override
+    public boolean update(Labor labor) {
+        String sql = "UPDATE labors SET hourlyrate = ?, workinghours = ?, workerproductivity = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setDouble(1, labor.getHourlyRate());
+            statement.setDouble(2, labor.getWorkingHours());
+            statement.setDouble(3, labor.getWorkerProductivity());
+            statement.setInt(4, labor.getId());
+            if (statement.executeUpdate() > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating labor: " + e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public Optional<Labor> findById(int id, Project project) {
+        String sql = "SELECT * FROM components INNER JOIN labors ON components.id = labors.id WHERE components.id = ? AND project_id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            statement.setInt(2, project.getId());
+            var result = statement.executeQuery();
+            if (result.next()) {
+                return Optional.of(new Labor(
+                        result.getInt("id"),
+                        result.getString("name"),
+                        ComponentType.valueOf(result.getString("componentType")),
+                        result.getDouble("vatrate"),
+                        result.getDouble("hourlyrate"),
+                        result.getDouble("workinghours"),
+                        result.getDouble("workerproductivity"),
+                        project
+                ));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching labor: " + e.getMessage());
+        }
+        return Optional.empty();
     }
 }
