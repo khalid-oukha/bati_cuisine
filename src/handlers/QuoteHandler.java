@@ -1,9 +1,13 @@
 package handlers;
 
+import entities.Project;
+import entities.Quote;
+import enums.project_status;
 import helpers.InputValidator;
 import services.QuoteService;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 public class QuoteHandler {
@@ -54,4 +58,38 @@ public class QuoteHandler {
         }
     }
 
+    public void getAllQuotes(Project project) {
+        List<Quote> quotes = quoteService.getAllQuotes(project);
+
+        for (Quote quote : quotes) {
+            System.out.println(quote.toString());
+        }
+    }
+
+    public void acceptQuote(Project project) {
+
+        if (project.getStatus().equals(project_status.COMPLETED)) {
+            System.out.println("THIS project is already completed");
+            return;
+        }
+
+        System.out.println("Enter the quote ID: ");
+        int quoteId = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.println("Do you want to accept a quote? (Y/N)");
+        String answer = scanner.nextLine();
+        if (!answer.equalsIgnoreCase("Y")) {
+            return;
+        }
+
+        Quote quote = quoteService.acceptQuote(project, quoteId);
+
+        if (quote != null) {
+            System.out.println(" ********************* Project quote accepted successfully ********************* ");
+            System.out.println(quote.toString());
+        }
+        ;
+
+    }
 }

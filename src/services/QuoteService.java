@@ -2,6 +2,7 @@ package services;
 
 import entities.Project;
 import entities.Quote;
+import enums.project_status;
 import repositories.Quote.QuoteRepository;
 import repositories.Quote.QuoteRepositoryImpl;
 
@@ -37,8 +38,28 @@ public class QuoteService {
 
     public List<Quote> getAllQuotes(Project project) {
         List<Quote> allQuotes = quoteRepository.findQuoteByProjectId(project);
-        return allQuotes.stream().filter(quote -> quote.getValidityDate().isBefore(LocalDate.now()))
+        return allQuotes.stream().filter(quote -> quote.getValidityDate().isAfter(LocalDate.now()))
                 .collect(Collectors.toList());
     }
 
+    public Optional<Quote> getAvailableQuotesById(Project project, int quoteId) {
+        List<Quote> allQuotes = this.getAllQuotes(project);
+        return allQuotes.stream().filter(q -> q.getId() == quoteId).findFirst();
+    }
+
+    public Quote acceptQuote(Project project, int quoteId) {
+        Optional<Quote> optionalQuote = getAvailableQuotesById(project, quoteId);
+        if (optionalQuote.isPresent()) {
+            Quote quote = optionalQuote.get();
+            if (quoteRepository.updateQuoteStatus(quote)) {
+                quote.setAccepted(true);
+                project.setTotalCost(quote.getEstimatedAmount());
+                project.setStatus(project_status.COMPLETED);
+
+                projectService.updateProject(project);
+            }
+            return quote;
+        }
+        return null;
+    }
 }

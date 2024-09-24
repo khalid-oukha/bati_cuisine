@@ -67,4 +67,20 @@ public class QuoteRepositoryImpl implements QuoteRepository {
     }
 
 
+    @Override
+    public boolean updateQuoteStatus(Quote quote) {
+        String sql = "UPDATE quotes SET accepted = true WHERE id = ? AND project_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, quote.getId());
+            statement.setInt(2, quote.getProject().getId());
+
+            if (statement.executeUpdate() > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating quote: " + e.getMessage());
+        }
+        return false;
+    }
+
 }

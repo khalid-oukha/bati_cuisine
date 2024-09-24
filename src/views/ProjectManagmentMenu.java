@@ -1,10 +1,7 @@
 package views;
 
 import entities.Project;
-import handlers.ComponentHandler;
-import handlers.LaborHandler;
-import handlers.MaterialHandler;
-import handlers.ProjectHandler;
+import handlers.*;
 
 import java.util.Optional;
 import java.util.Scanner;
@@ -15,7 +12,7 @@ public class ProjectManagmentMenu {
     private final MaterialHandler materialHandler = new MaterialHandler();
     private final LaborHandler laborHandler = new LaborHandler();
     ComponentHandler componentHandler = new ComponentHandler();
-
+    private QuoteHandler quoteHandler = new QuoteHandler();
 
     public ProjectManagmentMenu() {
         this.projectHandler = new ProjectHandler();
@@ -34,10 +31,11 @@ public class ProjectManagmentMenu {
             System.out.println("=    3. Update material in project                                                               ");
             System.out.println("=    4. Delete material from project                                                             ");
             System.out.println("=    5. View labors in project                                                                   ");
-            System.out.println("=    6. Add labor for project                                                                ");
+            System.out.println("=    6. Add labor for project                                                                    ");
             System.out.println("=    7. Update labors in project                                                                 ");
             System.out.println("=    8. Delete labors in project                                                                 ");
-            System.out.println("=    9. View All qoutes for this project                                                                 ");
+            System.out.println("=    9. View All qoutes for this project                                                         ");
+            System.out.println("=    10. Accept or refuse quote for project                                                      ");
             System.out.println("=    0. Exit                                                                                     ");
             System.out.println("================================================================================================");
             System.out.print("=    Please Enter Your Option: ");
@@ -72,7 +70,10 @@ public class ProjectManagmentMenu {
                     laborHandler.deleteLabor(project);
                     break;
                 case 9:
-
+                    quoteHandler.getAllQuotes(project);
+                    break;
+                case 10:
+                    quoteHandler.acceptQuote(project);
                     break;
                 case 0:
                     System.out.println("Exiting project management.");

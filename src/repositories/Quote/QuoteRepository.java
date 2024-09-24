@@ -10,4 +10,6 @@ public interface QuoteRepository {
     boolean createQuote(Quote quote);
 
     List<Quote> findQuoteByProjectId(Project project);
+
+    boolean updateQuoteStatus(Quote quote);
 }
