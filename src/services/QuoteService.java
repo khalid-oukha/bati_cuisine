@@ -6,7 +6,9 @@ import repositories.Quote.QuoteRepository;
 import repositories.Quote.QuoteRepositoryImpl;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class QuoteService {
     private final QuoteRepository quoteRepository;
@@ -31,6 +33,12 @@ public class QuoteService {
             System.out.println("Project not found with ID: " + projectId);
             return false;
         }
+    }
+
+    public List<Quote> getAllQuotes(Project project) {
+        List<Quote> allQuotes = quoteRepository.findQuoteByProjectId(project);
+        return allQuotes.stream().filter(quote -> quote.getValidityDate().isBefore(LocalDate.now()))
+                .collect(Collectors.toList());
     }
 
 }

@@ -16,6 +16,7 @@ public class ProjectManagmentMenu {
     private final LaborHandler laborHandler = new LaborHandler();
     ComponentHandler componentHandler = new ComponentHandler();
 
+
     public ProjectManagmentMenu() {
         this.projectHandler = new ProjectHandler();
     }
@@ -36,6 +37,7 @@ public class ProjectManagmentMenu {
             System.out.println("=    6. Add labor for project                                                                ");
             System.out.println("=    7. Update labors in project                                                                 ");
             System.out.println("=    8. Delete labors in project                                                                 ");
+            System.out.println("=    9. View All qoutes for this project                                                                 ");
             System.out.println("=    0. Exit                                                                                     ");
             System.out.println("================================================================================================");
             System.out.print("=    Please Enter Your Option: ");
@@ -68,6 +70,9 @@ public class ProjectManagmentMenu {
                     break;
                 case 8:
                     laborHandler.deleteLabor(project);
+                    break;
+                case 9:
+
                     break;
                 case 0:
                     System.out.println("Exiting project management.");

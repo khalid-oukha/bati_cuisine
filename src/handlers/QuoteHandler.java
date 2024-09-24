@@ -53,4 +53,5 @@ public class QuoteHandler {
             System.out.println("Failed to add quote");
         }
     }
+
 }

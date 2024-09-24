@@ -5,6 +5,8 @@ import entities.Project;
 import entities.Quote;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuoteRepositoryImpl implements QuoteRepository {
@@ -41,6 +43,28 @@ public class QuoteRepositoryImpl implements QuoteRepository {
 
     @Override
     public List<Quote> findQuoteByProjectId(Project project) {
-        return null;
+        String sql = "SELECT * FROM quotes WHERE project_id = ?";
+        List<Quote> quotes = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, project.getId());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                double estimatedAmount = resultSet.getDouble("estimatedamount");
+                java.sql.Date issueDateSql = resultSet.getDate("issuedate");
+                java.sql.Date validityDateSql = resultSet.getDate("validitydate");
+                int id = resultSet.getInt("id");
+
+                LocalDate issueDate = issueDateSql.toLocalDate();
+                LocalDate validityDate = validityDateSql.toLocalDate();
+
+                Quote quote = new Quote(id, estimatedAmount, issueDate, validityDate, project);
+                quotes.add(quote);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching quotes from database: " + e.getMessage());
+        }
+        return quotes;
     }
+
+
 }
